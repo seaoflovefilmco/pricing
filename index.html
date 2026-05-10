@@ -3,433 +3,685 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Sea of Love Film — Packages</title>
+<meta name="description" content="Sea of Love wedding videography packages — three editorial film tiers, add-ons, and how to book.">
+<title>Sea of Love — Packages</title>
+
+<!--
+  Design system aligned to the main Sea of Love site (Astro project)
+  and the welcome guide. Cormorant Garamond stands in for the main
+  site's Season Mix serif — Season Mix is a paid foundry font that
+  can't ship in a static GitHub Pages repo.
+-->
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400;1,500&family=DM+Sans:wght@400;500&display=swap">
+
 <style>
-*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  /* ============================================================
+     Design tokens — ported from main site global.css
+     ============================================================ */
+  :root {
+    --black:        #0a0a0a;
+    --white:        #fafaf8;
+    --mid:          #888880;
+    --bg-tonal:     #f4f4f2;
+    --fg-prose:     #444;
+    --fg-muted:     #666;
+    --border:       rgba(0, 0, 0, 0.07);
+    --rule:         rgba(0, 0, 0, 0.08);
+    --rule-strong:  rgba(0, 0, 0, 0.15);
+    --rule-on-dark: rgba(255, 255, 255, 0.10);
 
-body {
-  font-family: 'BDGrotesk', 'BD Grotesk', 'Helvetica Neue', Helvetica, Arial, sans-serif;
-  background: #f5f5f7;
-  color: #111111;
-  -webkit-font-smoothing: antialiased;
-}
+    --serif: 'Cormorant Garamond', Georgia, 'Times New Roman', serif;
+    --sans:  'DM Sans', system-ui, -apple-system, sans-serif;
 
-/* Hero */
-.hero {
-  padding: 5rem 2rem 3rem;
-  max-width: 980px;
-  margin: 0 auto;
-}
-.hero-label {
-  font-size: 11px;
-  font-weight: 500;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  color: #999;
-  margin-bottom: 1rem;
-}
-.hero h1 {
-  font-size: 48px;
-  font-weight: 400;
-  color: #111;
-  line-height: 1.1;
-  margin-bottom: 1rem;
-  letter-spacing: -0.02em;
-}
-.hero p {
-  font-size: 17px;
-  color: #555;
-  line-height: 1.6;
-  max-width: 500px;
-}
+    --tracking-tight:        -0.02em;
+    --tracking-snug:         -0.015em;
+    --tracking-soft:          0.02em;
+    --tracking-eyebrow:       0.16em;
+    --tracking-eyebrow-wide:  0.18em;
 
-/* Filter tabs */
-.filter-row {
-  display: flex;
-  justify-content: center;
-  gap: 8px;
-  padding: 0 2rem 3rem;
-  flex-wrap: wrap;
-}
-.filter-btn {
-  padding: 8px 20px;
-  font-size: 13px;
-  border-radius: 999px;
-  border: 1px solid #ddd;
-  background: #fff;
-  color: #555;
-  cursor: pointer;
-  font-family: inherit;
-  letter-spacing: 0.02em;
-  transition: all 0.2s;
-}
-.filter-btn:hover { border-color: #111; color: #111; }
-.filter-btn.active { background: #111; color: #fff; border-color: #111; }
+    --duration-fast:   0.2s;
+    --duration-base:   0.3s;
+    --ease:            ease;
+    --ease-cinematic:  cubic-bezier(0.16, 1, 0.3, 1);
+  }
 
-/* Package cards */
-.pkg-section { max-width: 980px; margin: 0 auto; padding: 0 2rem 4rem; }
+  *, *::before, *::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
 
-.pkg-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 20px;
-  margin-bottom: 1.5rem;
-}
+  html {
+    scroll-behavior: smooth;
+    -webkit-text-size-adjust: 100%;
+  }
 
-.pkg-card {
-  background: #ffffff;
-  border-radius: 18px;
-  overflow: hidden;
-  cursor: pointer;
-  transition: transform 0.3s cubic-bezier(0.34,1.56,0.64,1), box-shadow 0.3s ease;
-  position: relative;
-}
-.pkg-card:hover {
-  transform: translateY(-6px);
-  box-shadow: 0 20px 60px rgba(0,0,0,0.12);
-}
-.pkg-card.recommended {
-  background: #111;
-}
+  body {
+    font-family: var(--serif);
+    font-size: 17px;
+    font-weight: 400;
+    line-height: 1.7;
+    color: var(--black);
+    background: var(--white);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
 
-.pkg-card-inner { padding: 2rem 1.75rem 1.75rem; display: flex; flex-direction: column; height: 100%; }
+  /* ============================================================
+     Layout
+     ============================================================ */
+  .container {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 1.5rem;
+  }
 
-.rec-tag {
-  display: inline-block;
-  font-size: 11px;
-  font-weight: 500;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: #999;
-  margin-bottom: 1.25rem;
-  height: 16px;
-}
-.pkg-card.recommended .rec-tag { color: #777; }
-.rec-tag.show { color: #111; }
-.pkg-card.recommended .rec-tag.show { color: #aaa; }
+  /* ============================================================
+     Hero
+     ============================================================ */
+  .hero {
+    padding: 5rem 1.5rem 3rem;
+    text-align: center;
+  }
+  .hero-inner {
+    max-width: 720px;
+    margin: 0 auto;
+  }
+  .eyebrow {
+    display: block;
+    margin-bottom: 1rem;
+    font-family: var(--sans);
+    font-size: 11px;
+    font-weight: 400;
+    letter-spacing: var(--tracking-eyebrow-wide);
+    text-transform: uppercase;
+    color: var(--mid);
+  }
+  .hero h1 {
+    margin: 0 0 1.25rem;
+    font-family: var(--serif);
+    font-size: clamp(40px, 6vw, 72px);
+    font-weight: 400;
+    line-height: 1.05;
+    letter-spacing: var(--tracking-tight);
+    color: var(--black);
+  }
+  .hero h1 em {
+    font-style: italic;
+  }
+  .hero p {
+    margin: 0 auto;
+    max-width: 520px;
+    font-family: var(--serif);
+    font-size: 17px;
+    line-height: 1.6;
+    color: var(--fg-prose);
+  }
 
-.pkg-number {
-  font-size: 11px;
-  font-weight: 500;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  color: #bbb;
-  margin-bottom: 6px;
-}
-.pkg-card.recommended .pkg-number { color: #555; }
+  /* ============================================================
+     Filter pills — mirror the main site films-page filter
+     ============================================================ */
+  .filter-row {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    padding: 0 1.5rem 3rem;
+  }
+  .filter-btn {
+    padding: 9px 16px;
+    border: 1px solid rgba(0, 0, 0, 0.12);
+    border-radius: 999px;
+    background: transparent;
+    color: var(--black);
+    font-family: var(--sans);
+    font-size: 12px;
+    font-weight: 400;
+    letter-spacing: var(--tracking-eyebrow);
+    text-transform: uppercase;
+    cursor: pointer;
+    white-space: nowrap;
+    transition:
+      background var(--duration-fast) var(--ease),
+      color var(--duration-fast) var(--ease),
+      border-color var(--duration-fast) var(--ease);
+  }
+  .filter-btn:hover {
+    border-color: rgba(0, 0, 0, 0.4);
+  }
+  .filter-btn.active {
+    background: var(--black);
+    color: var(--white);
+    border-color: var(--black);
+  }
 
-.pkg-name {
-  font-size: 28px;
-  font-weight: 400;
-  color: #111;
-  margin-bottom: 8px;
-  letter-spacing: -0.01em;
-}
-.pkg-card.recommended .pkg-name { color: #fff; }
+  /* ============================================================
+     Package cards
+     Three-up grid at desktop. Each card has the same structure;
+     the "Most popular" middle card uses a dark inversion to draw
+     emphasis (commercial intent + matches main site's editorial
+     use of dark sections like the about legacy block).
+     ============================================================ */
+  .pkg-section {
+    padding: 0 1.5rem 3rem;
+  }
+  .pkg-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1.25rem;
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+  @media (min-width: 800px) {
+    .pkg-grid {
+      grid-template-columns: repeat(3, 1fr);
+      align-items: stretch;
+    }
+  }
 
-.pkg-tagline {
-  font-size: 14px;
-  color: #888;
-  line-height: 1.5;
-  margin-bottom: 1.75rem;
-  min-height: 42px;
-}
-.pkg-card.recommended .pkg-tagline { color: #666; }
+  .pkg-card {
+    display: flex;
+    flex-direction: column;
+    padding: 2.5rem 2rem;
+    background: var(--white);
+    border: 1px solid var(--rule);
+    transition: transform var(--duration-base) var(--ease-cinematic);
+  }
+  .pkg-card.recommended {
+    background: var(--black);
+    color: var(--white);
+    border-color: var(--black);
+  }
 
-.pkg-divider {
-  height: 1px;
-  background: #f0f0f0;
-  margin-bottom: 1.5rem;
-}
-.pkg-card.recommended .pkg-divider { background: #222; }
+  .pkg-rec-tag {
+    display: block;
+    min-height: 14px;
+    margin-bottom: 1.25rem;
+    font-family: var(--sans);
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: var(--tracking-eyebrow);
+    text-transform: uppercase;
+    color: var(--mid);
+  }
+  .pkg-rec-tag.show {
+    color: var(--white);
+  }
 
-.pkg-price-row { margin-bottom: 1.75rem; }
-.pkg-price {
-  font-size: 36px;
-  font-weight: 400;
-  color: #111;
-  letter-spacing: -0.02em;
-  line-height: 1;
-  margin-bottom: 4px;
-}
-.pkg-card.recommended .pkg-price { color: #fff; }
-.pkg-price-note {
-  font-size: 11px;
-  color: #aaa;
-  letter-spacing: 0.05em;
-  text-transform: uppercase;
-}
+  .pkg-number {
+    display: block;
+    margin-bottom: 0.4rem;
+    font-family: var(--sans);
+    font-size: 11px;
+    letter-spacing: var(--tracking-eyebrow);
+    text-transform: uppercase;
+    color: var(--mid);
+  }
+  .pkg-card.recommended .pkg-number {
+    color: rgba(255, 255, 255, 0.5);
+  }
 
-.pkg-features { margin-bottom: 1.75rem; flex: 1; }
-.feat {
-  display: flex;
-  align-items: flex-start;
-  gap: 10px;
-  padding: 6px 0;
-  font-size: 13px;
-  color: #555;
-  line-height: 1.45;
-  border-bottom: 1px solid rgba(0,0,0,0.05);
-}
-.pkg-card.recommended .feat { color: #aaa; border-bottom-color: rgba(255,255,255,0.06); }
-.feat:last-child { border-bottom: none; }
-.feat-icon {
-  width: 16px;
-  height: 16px;
-  border-radius: 50%;
-  border: 1.5px solid #ddd;
-  flex-shrink: 0;
-  margin-top: 2px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-.pkg-card.recommended .feat-icon { border-color: #444; }
-.feat-icon::after {
-  content: '';
-  width: 6px;
-  height: 6px;
-  border-radius: 50%;
-  background: #111;
-  display: block;
-}
-.pkg-card.recommended .feat-icon::after { background: #fff; }
+  .pkg-name {
+    margin: 0 0 0.6rem;
+    font-family: var(--serif);
+    font-size: clamp(28px, 3vw, 36px);
+    font-weight: 400;
+    line-height: 1.05;
+    letter-spacing: var(--tracking-snug);
+    color: inherit;
+  }
 
-.pkg-cta-btn {
-  width: 100%;
-  padding: 13px;
-  font-size: 14px;
-  font-family: inherit;
-  letter-spacing: 0.03em;
-  cursor: pointer;
-  border-radius: 999px;
-  border: none;
-  background: #111;
-  color: #fff;
-  transition: all 0.2s;
-}
-.pkg-cta-btn:hover { background: #333; }
-.pkg-card.recommended .pkg-cta-btn { background: #fff; color: #111; }
-.pkg-card.recommended .pkg-cta-btn:hover { background: #f0f0f0; }
+  .pkg-tagline {
+    margin: 0 0 1.75rem;
+    font-family: var(--serif);
+    font-style: italic;
+    font-size: 16px;
+    line-height: 1.4;
+    color: var(--fg-prose);
+    min-height: 44px;
+  }
+  .pkg-card.recommended .pkg-tagline {
+    color: rgba(255, 255, 255, 0.7);
+  }
 
-/* Compare toggle */
-.compare-toggle-row {
-  display: flex;
-  justify-content: center;
-  margin-bottom: 2rem;
-}
-.compare-toggle {
-  font-size: 14px;
-  color: #555;
-  background: none;
-  border: none;
-  cursor: pointer;
-  font-family: inherit;
-  text-decoration: underline;
-  text-underline-offset: 3px;
-  letter-spacing: 0.02em;
-  transition: color 0.15s;
-}
-.compare-toggle:hover { color: #111; }
+  .pkg-divider {
+    height: 1px;
+    margin: 0 0 1.5rem;
+    background: var(--rule);
+    border: none;
+  }
+  .pkg-card.recommended .pkg-divider {
+    background: var(--rule-on-dark);
+  }
 
-/* Compare table */
-.compare-section {
-  max-width: 980px;
-  margin: 0 auto;
-  padding: 0 2rem 4rem;
-  display: none;
-}
-.compare-section.visible { display: block; }
+  /* Price — the editorial focal point of the card. Large serif,
+     generous breathing room. */
+  .pkg-price {
+    display: block;
+    margin: 0 0 0.4rem;
+    font-family: var(--serif);
+    font-size: clamp(48px, 5vw, 64px);
+    font-weight: 400;
+    line-height: 1;
+    letter-spacing: var(--tracking-tight);
+    color: inherit;
+  }
+  .pkg-price-note {
+    display: block;
+    margin-bottom: 2rem;
+    font-family: var(--sans);
+    font-size: 11px;
+    letter-spacing: var(--tracking-eyebrow);
+    text-transform: uppercase;
+    color: var(--mid);
+  }
+  .pkg-card.recommended .pkg-price-note {
+    color: rgba(255, 255, 255, 0.5);
+  }
 
-.compare-table {
-  width: 100%;
-  border-collapse: collapse;
-  background: #fff;
-  border-radius: 18px;
-  overflow: hidden;
-}
-.compare-table th, .compare-table td {
-  padding: 1rem 1.25rem;
-  font-size: 14px;
-  text-align: left;
-  border-bottom: 1px solid #f0f0f0;
-}
-.compare-table tr:last-child td { border-bottom: none; }
-.compare-table thead th {
-  background: #111;
-  color: #fff;
-  font-weight: 400;
-  font-size: 12px;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-  padding: 1.25rem;
-}
-.compare-table thead th:first-child { background: #1a1a1a; color: #666; }
-.compare-table tbody tr:hover td { background: #fafafa; }
-.compare-table td:not(:first-child) { text-align: center; color: #555; }
-.compare-table td:first-child { color: #111; }
-.tick { font-size: 16px; color: #111; }
-.dash { color: #ddd; }
+  .pkg-features {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    flex: 1;
+  }
+  .pkg-features li {
+    padding: 0.625rem 0;
+    border-top: 1px solid var(--rule);
+    font-family: var(--sans);
+    font-size: 14px;
+    line-height: 1.5;
+    color: var(--fg-prose);
+  }
+  .pkg-features li:last-child {
+    border-bottom: 1px solid var(--rule);
+  }
+  .pkg-card.recommended .pkg-features li {
+    border-top-color: var(--rule-on-dark);
+    color: rgba(255, 255, 255, 0.85);
+  }
+  .pkg-card.recommended .pkg-features li:last-child {
+    border-bottom-color: var(--rule-on-dark);
+  }
 
-/* Add-ons */
-.addons-section {
-  max-width: 980px;
-  margin: 0 auto;
-  padding: 0 2rem 2rem;
-}
-.addons-label {
-  font-size: 11px;
-  font-weight: 500;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  color: #999;
-  margin-bottom: 1.25rem;
-}
-.addons-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 12px;
-}
-.addon-card {
-  background: #fff;
-  border-radius: 12px;
-  padding: 1.25rem 1.5rem;
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-  transition: transform 0.2s, box-shadow 0.2s;
-}
-.addon-card:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 10px 30px rgba(0,0,0,0.08);
-}
-.addon-name { font-size: 14px; color: #111; }
-.addon-price { font-size: 20px; font-weight: 400; color: #111; letter-spacing: -0.01em; }
-.addon-note { font-size: 11px; color: #aaa; text-transform: uppercase; letter-spacing: 0.05em; }
+  /* Hidden state for filter — keep markup but visually remove */
+  .pkg-card.hidden {
+    display: none;
+  }
 
-.footnote {
-  max-width: 980px;
-  margin: 0 auto;
-  padding: 1.5rem 2rem 4rem;
-  font-size: 12px;
-  color: #aaa;
-  line-height: 1.7;
-}
+  /* ============================================================
+     Compare toggle + table
+     ============================================================ */
+  .compare-toggle-row {
+    display: flex;
+    justify-content: center;
+    margin: 2rem 0 0;
+  }
+  .compare-toggle {
+    padding: 0;
+    border: none;
+    background: transparent;
+    color: var(--black);
+    font-family: var(--sans);
+    font-size: 14px;
+    font-weight: 500;
+    letter-spacing: var(--tracking-soft);
+    text-decoration: underline;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 0.3em;
+    cursor: pointer;
+    transition: opacity var(--duration-fast) var(--ease);
+  }
+  .compare-toggle:hover {
+    opacity: 0.7;
+  }
 
-@media (max-width: 720px) {
-  .hero h1 { font-size: 32px; }
-  .pkg-grid { grid-template-columns: 1fr; }
-  .addons-grid { grid-template-columns: 1fr 1fr; }
-}
-@media (max-width: 480px) {
-  .addons-grid { grid-template-columns: 1fr; }
-  .hero h1 { font-size: 26px; }
-}
+  .compare-section {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 3rem 1.5rem 0;
+    display: none;
+  }
+  .compare-section.visible {
+    display: block;
+  }
+  .compare-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-family: var(--sans);
+    font-size: 14px;
+  }
+  .compare-table th,
+  .compare-table td {
+    padding: 1rem 1.25rem;
+    text-align: left;
+    border-bottom: 1px solid var(--rule);
+  }
+  .compare-table thead th {
+    padding-top: 0;
+    padding-bottom: 1rem;
+    font-family: var(--sans);
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: var(--tracking-eyebrow);
+    text-transform: uppercase;
+    color: var(--mid);
+    border-bottom: 1px solid var(--rule-strong);
+    background: transparent;
+  }
+  .compare-table thead th:first-child {
+    color: var(--mid);
+  }
+  .compare-table tbody td {
+    color: var(--fg-prose);
+  }
+  .compare-table tbody td:first-child {
+    color: var(--black);
+    font-weight: 500;
+  }
+  .compare-table tbody td:not(:first-child) {
+    text-align: center;
+  }
+  .compare-table tbody tr:last-child td {
+    border-bottom: none;
+  }
+  .tick {
+    color: var(--black);
+    font-size: 15px;
+  }
+  .dash {
+    color: var(--mid);
+    opacity: 0.6;
+  }
+
+  /* ============================================================
+     Add-ons
+     Flat editorial grid — no card chrome. Each add-on reads as a
+     small typographic block: name, price, note.
+     ============================================================ */
+  .addons-section {
+    padding: 5rem 1.5rem 4rem;
+    background: var(--white);
+    border-top: 1px solid var(--rule);
+    margin-top: 5rem;
+  }
+  .addons-inner {
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+  .addons-header {
+    margin-bottom: 2.5rem;
+    text-align: center;
+  }
+  .addons-title {
+    margin: 0;
+    font-family: var(--serif);
+    font-size: clamp(28px, 3.5vw, 40px);
+    font-weight: 400;
+    line-height: 1.1;
+    letter-spacing: var(--tracking-snug);
+    color: var(--black);
+  }
+  .addons-title em {
+    font-style: italic;
+  }
+  .addons-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 0;
+  }
+  @media (min-width: 600px) {
+    .addons-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+  @media (min-width: 900px) {
+    .addons-grid {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+  .addon {
+    padding: 1.5rem 1.5rem 1.5rem 0;
+    border-top: 1px solid var(--rule);
+  }
+  @media (min-width: 600px) {
+    .addon {
+      padding: 1.5rem;
+    }
+    .addon:nth-child(odd) {
+      padding-left: 0;
+    }
+  }
+  @media (min-width: 900px) {
+    .addon {
+      padding: 1.5rem;
+    }
+    .addon:nth-child(odd) { padding-left: 1.5rem; }
+    .addon:nth-child(3n+1) { padding-left: 0; }
+  }
+  .addon-name {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-family: var(--sans);
+    font-size: 13px;
+    letter-spacing: var(--tracking-soft);
+    color: var(--mid);
+  }
+  .addon-price {
+    display: block;
+    margin-bottom: 0.4rem;
+    font-family: var(--serif);
+    font-size: clamp(24px, 2.6vw, 32px);
+    font-weight: 400;
+    line-height: 1;
+    letter-spacing: var(--tracking-snug);
+    color: var(--black);
+  }
+  .addon-note {
+    display: block;
+    font-family: var(--sans);
+    font-size: 11px;
+    letter-spacing: var(--tracking-eyebrow);
+    text-transform: uppercase;
+    color: var(--mid);
+  }
+
+  /* ============================================================
+     Booking CTA — consolidated at the bottom.
+     Single Calendly button instead of inline CTAs in each card.
+     Sits on a tonal surface to mark the closer.
+     ============================================================ */
+  .booking-section {
+    padding: 6rem 1.5rem;
+    background: var(--bg-tonal);
+    text-align: center;
+  }
+  .booking-inner {
+    max-width: 640px;
+    margin: 0 auto;
+  }
+  .booking-eyebrow {
+    display: block;
+    margin-bottom: 1rem;
+    font-family: var(--sans);
+    font-size: 11px;
+    font-weight: 400;
+    letter-spacing: var(--tracking-eyebrow-wide);
+    text-transform: uppercase;
+    color: var(--mid);
+  }
+  .booking-heading {
+    margin: 0 0 1.25rem;
+    font-family: var(--serif);
+    font-size: clamp(32px, 4vw, 48px);
+    font-weight: 400;
+    line-height: 1.1;
+    letter-spacing: var(--tracking-snug);
+    color: var(--black);
+  }
+  .booking-heading em {
+    font-style: italic;
+  }
+  .booking-body {
+    margin: 0 auto 2rem;
+    max-width: 480px;
+    font-family: var(--serif);
+    font-size: 17px;
+    line-height: 1.6;
+    color: var(--fg-prose);
+  }
+  .btn-primary {
+    display: inline-block;
+    padding: 13px 30px;
+    background: var(--black);
+    color: var(--white);
+    border: 1px solid var(--black);
+    border-radius: 999px;
+    font-family: var(--sans);
+    font-size: 14px;
+    font-weight: 500;
+    letter-spacing: var(--tracking-soft);
+    text-decoration: none;
+    cursor: pointer;
+    transition:
+      background var(--duration-fast) var(--ease),
+      border-color var(--duration-fast) var(--ease);
+  }
+  .btn-primary:hover {
+    background: #222;
+    border-color: #222;
+  }
+
+  .footnote {
+    margin: 2rem auto 0;
+    max-width: 480px;
+    font-family: var(--sans);
+    font-size: 12px;
+    line-height: 1.6;
+    color: var(--mid);
+  }
+
+  /* ============================================================
+     Mobile
+     ============================================================ */
+  @media (max-width: 600px) {
+    .hero {
+      padding: 4rem 1.25rem 2rem;
+    }
+    .pkg-card {
+      padding: 2rem 1.5rem;
+    }
+    .pkg-price {
+      font-size: 44px;
+    }
+    .compare-table th,
+    .compare-table td {
+      padding: 0.75rem;
+      font-size: 13px;
+    }
+    .addons-section {
+      padding: 3rem 1.25rem 3rem;
+      margin-top: 3rem;
+    }
+    .booking-section {
+      padding: 4rem 1.25rem;
+    }
+  }
 </style>
 </head>
 <body>
 
-<div class="hero">
-  <div class="hero-label">Sea of Love Film Co.</div>
-  <h1>Find your perfect<br>film package.</h1>
-  <p>Every love story is different. Here's how we can tell yours. All prices exclude GST and travel.</p>
+<header class="hero">
+  <div class="hero-inner">
+    <span class="eyebrow">Sea of Love</span>
+    <h1>Find your perfect <em>film package.</em></h1>
+    <p>Every love story is different. Here's how we can tell yours. All prices exclude GST and travel.</p>
+  </div>
+</header>
+
+<div class="filter-row" role="group" aria-label="Filter packages by filmmaker count">
+  <button type="button" class="filter-btn active" onclick="filterPkg('all', this)">All packages</button>
+  <button type="button" class="filter-btn" onclick="filterPkg('solo', this)">Single filmmaker</button>
+  <button type="button" class="filter-btn" onclick="filterPkg('duo', this)">Two filmmakers</button>
 </div>
 
-<div class="filter-row">
-  <button class="filter-btn active" onclick="filterPkg('all', this)">All packages</button>
-  <button class="filter-btn" onclick="filterPkg('solo', this)">Single filmmaker</button>
-  <button class="filter-btn" onclick="filterPkg('duo', this)">Two filmmakers</button>
-</div>
-
-<div class="pkg-section">
+<section class="pkg-section">
   <div class="pkg-grid">
 
-    <div class="pkg-card" data-type="solo">
-      <div class="pkg-card-inner">
-        <div class="rec-tag">&nbsp;</div>
-        <div class="pkg-number">Package 01</div>
-        <div class="pkg-name">SOL 01</div>
-        <div class="pkg-tagline">Intimate coverage for a beautifully focused day.</div>
-        <div class="pkg-divider"></div>
-        <div class="pkg-price-row">
-          <div class="pkg-price">$5,000</div>
-          <div class="pkg-price-note">+ GST · Excl. travel</div>
-        </div>
-        <div class="pkg-features">
-          <div class="feat"><span class="feat-icon"></span>6 hours of coverage</div>
-          <div class="feat"><span class="feat-icon"></span>One filmmaker</div>
-          <div class="feat"><span class="feat-icon"></span>Highlight Film (4–5 mins)</div>
-          <div class="feat"><span class="feat-icon"></span>Socials Hero (45s cut)</div>
-          <div class="feat"><span class="feat-icon"></span>Ceremony &amp; Speeches — single cam raw (unedited)</div>
-          <div class="feat"><span class="feat-icon"></span>Digital delivery</div>
-        </div>
-        <button class="pkg-cta-btn" onclick="window.open('https://calendly.com/nathan-sol/30min','_blank')">Book a call</button>
-      </div>
-    </div>
+    <article class="pkg-card" data-type="solo">
+      <span class="pkg-rec-tag">&nbsp;</span>
+      <span class="pkg-number">Package 01</span>
+      <h2 class="pkg-name">SOL 01</h2>
+      <p class="pkg-tagline">Intimate coverage for a beautifully focused day.</p>
+      <hr class="pkg-divider" />
+      <span class="pkg-price">$5,000</span>
+      <span class="pkg-price-note">+ GST · Excl. travel</span>
+      <ul class="pkg-features">
+        <li>6 hours of coverage</li>
+        <li>One filmmaker</li>
+        <li>Highlight Film (4–5 mins)</li>
+        <li>Socials Hero (45s cut)</li>
+        <li>Ceremony &amp; Speeches — single cam raw (unedited)</li>
+        <li>Digital delivery</li>
+      </ul>
+    </article>
 
-    <div class="pkg-card recommended" data-type="solo">
-      <div class="pkg-card-inner">
-        <div class="rec-tag show">Most popular</div>
-        <div class="pkg-number">Package 02</div>
-        <div class="pkg-name">SOL 02</div>
-        <div class="pkg-tagline">Our most loved package. More time, more moments.</div>
-        <div class="pkg-divider"></div>
-        <div class="pkg-price-row">
-          <div class="pkg-price">$7,000</div>
-          <div class="pkg-price-note">+ GST · Excl. travel</div>
-        </div>
-        <div class="pkg-features">
-          <div class="feat"><span class="feat-icon"></span>8 hours of coverage</div>
-          <div class="feat"><span class="feat-icon"></span>One filmmaker</div>
-          <div class="feat"><span class="feat-icon"></span>Highlight Film (4–5 mins)</div>
-          <div class="feat"><span class="feat-icon"></span>Socials Hero (45s cut)</div>
-          <div class="feat"><span class="feat-icon"></span>Ceremony &amp; Speeches — 2x cam edited</div>
-          <div class="feat"><span class="feat-icon"></span>Digital delivery</div>
-        </div>
-        <button class="pkg-cta-btn" onclick="window.open('https://calendly.com/nathan-sol/30min','_blank')">Book a call</button>
-      </div>
-    </div>
+    <article class="pkg-card recommended" data-type="solo">
+      <span class="pkg-rec-tag show">Most popular</span>
+      <span class="pkg-number">Package 02</span>
+      <h2 class="pkg-name">SOL 02</h2>
+      <p class="pkg-tagline">Our most loved package. More time, more moments.</p>
+      <hr class="pkg-divider" />
+      <span class="pkg-price">$7,000</span>
+      <span class="pkg-price-note">+ GST · Excl. travel</span>
+      <ul class="pkg-features">
+        <li>8 hours of coverage</li>
+        <li>One filmmaker</li>
+        <li>Highlight Film (4–5 mins)</li>
+        <li>Socials Hero (45s cut)</li>
+        <li>Ceremony &amp; Speeches — 2x cam edited</li>
+        <li>Digital delivery</li>
+      </ul>
+    </article>
 
-    <div class="pkg-card" data-type="duo">
-      <div class="pkg-card-inner">
-        <div class="rec-tag">&nbsp;</div>
-        <div class="pkg-number">Package 03</div>
-        <div class="pkg-name">SOL 03</div>
-        <div class="pkg-tagline">Full day. Two filmmakers. Every single moment.</div>
-        <div class="pkg-divider"></div>
-        <div class="pkg-price-row">
-          <div class="pkg-price">$10,000</div>
-          <div class="pkg-price-note">+ GST · Excl. travel</div>
-        </div>
-        <div class="pkg-features">
-          <div class="feat"><span class="feat-icon"></span>Full day (up to 12 hours)</div>
-          <div class="feat"><span class="feat-icon"></span>Two filmmakers</div>
-          <div class="feat"><span class="feat-icon"></span>Highlight Film (4–5 mins)</div>
-          <div class="feat"><span class="feat-icon"></span>Socials Hero (45s cut)</div>
-          <div class="feat"><span class="feat-icon"></span>Ceremony &amp; Speeches — 3x cam edited</div>
-          <div class="feat"><span class="feat-icon"></span>Raw &amp; Unedited footage (2hrs)</div>
-          <div class="feat"><span class="feat-icon"></span>Digital delivery</div>
-        </div>
-        <button class="pkg-cta-btn" onclick="window.open('https://calendly.com/nathan-sol/30min','_blank')">Book a call</button>
-      </div>
-    </div>
+    <article class="pkg-card" data-type="duo">
+      <span class="pkg-rec-tag">&nbsp;</span>
+      <span class="pkg-number">Package 03</span>
+      <h2 class="pkg-name">SOL 03</h2>
+      <p class="pkg-tagline">Full day. Two filmmakers. Every single moment.</p>
+      <hr class="pkg-divider" />
+      <span class="pkg-price">$10,000</span>
+      <span class="pkg-price-note">+ GST · Excl. travel</span>
+      <ul class="pkg-features">
+        <li>Full day (up to 12 hours)</li>
+        <li>Two filmmakers</li>
+        <li>Highlight Film (4–5 mins)</li>
+        <li>Socials Hero (45s cut)</li>
+        <li>Ceremony &amp; Speeches — 3x cam edited</li>
+        <li>Raw &amp; Unedited footage (2hrs)</li>
+        <li>Digital delivery</li>
+      </ul>
+    </article>
 
   </div>
 
   <div class="compare-toggle-row">
-    <button class="compare-toggle" onclick="toggleCompare(this)">Compare all packages →</button>
+    <button type="button" class="compare-toggle" onclick="toggleCompare(this)" aria-expanded="false" aria-controls="compareSection">Compare all packages →</button>
   </div>
-</div>
+</section>
 
 <!-- Compare table -->
-<div class="compare-section" id="compareSection">
+<section class="compare-section" id="compareSection" aria-hidden="true">
   <table class="compare-table">
     <thead>
       <tr>
-        <th>Feature</th>
-        <th>SOL 01 — $5,000</th>
-        <th>SOL 02 — $7,000</th>
-        <th>SOL 03 — $10,000</th>
+        <th scope="col">Feature</th>
+        <th scope="col">SOL 01 — $5,000</th>
+        <th scope="col">SOL 02 — $7,000</th>
+        <th scope="col">SOL 03 — $10,000</th>
       </tr>
     </thead>
     <tbody>
@@ -442,89 +694,104 @@ body {
       <tr><td>Digital delivery</td><td><span class="tick">✓</span></td><td><span class="tick">✓</span></td><td><span class="tick">✓</span></td></tr>
     </tbody>
   </table>
-</div>
+</section>
 
 <!-- Add-ons -->
-<div class="addons-section">
-  <div class="addons-label">Add-ons</div>
-  <div class="addons-grid">
-    <div class="addon-card">
-      <div class="addon-name">Additional hours</div>
-      <div class="addon-price">$440</div>
-      <div class="addon-note">Per hour</div>
-    </div>
-    <div class="addon-card">
-      <div class="addon-name">Second filmmaker</div>
-      <div class="addon-price">$1,100</div>
-      <div class="addon-note">Full day</div>
-    </div>
-    <div class="addon-card">
-      <div class="addon-name">Drone coverage</div>
-      <div class="addon-price">$360</div>
-      <div class="addon-note">Where permitted</div>
-    </div>
-    <div class="addon-card">
-      <div class="addon-name">Raw footage</div>
-      <div class="addon-price">$660</div>
-      <div class="addon-note">Full delivery</div>
-    </div>
-    <div class="addon-card">
-      <div class="addon-name">Feature film</div>
-      <div class="addon-price">$1,650</div>
-      <div class="addon-note">7–9 minute edit</div>
-    </div>
-    <div class="addon-card">
-      <div class="addon-name">Travel &amp; accommodation</div>
-      <div class="addon-price">POA</div>
-      <div class="addon-note">Calculated on request</div>
-    </div>
-    <div class="addon-card">
-      <div class="addon-name">Super 8 film</div>
-      <div class="addon-price">$880</div>
-      <div class="addon-note">Analogue film aesthetic</div>
-    </div>
-    <div class="addon-card">
-      <div class="addon-name">Camcorder</div>
-      <div class="addon-price">$550</div>
-      <div class="addon-note">Nostalgic video look</div>
-    </div>
-    <div class="addon-card">
-      <div class="addon-name">Social rush edit</div>
-      <div class="addon-price">$990</div>
-      <div class="addon-note">48hr turnaround</div>
+<section class="addons-section">
+  <div class="addons-inner">
+    <header class="addons-header">
+      <h2 class="addons-title">Add <em>anything else</em> you'd like.</h2>
+    </header>
+    <div class="addons-grid">
+      <div class="addon">
+        <span class="addon-name">Additional hours</span>
+        <span class="addon-price">$440</span>
+        <span class="addon-note">Per hour</span>
+      </div>
+      <div class="addon">
+        <span class="addon-name">Second filmmaker</span>
+        <span class="addon-price">$1,100</span>
+        <span class="addon-note">Full day</span>
+      </div>
+      <div class="addon">
+        <span class="addon-name">Drone coverage</span>
+        <span class="addon-price">$360</span>
+        <span class="addon-note">Where permitted</span>
+      </div>
+      <div class="addon">
+        <span class="addon-name">Raw footage</span>
+        <span class="addon-price">$660</span>
+        <span class="addon-note">Full delivery</span>
+      </div>
+      <div class="addon">
+        <span class="addon-name">Feature film</span>
+        <span class="addon-price">$1,650</span>
+        <span class="addon-note">7–9 minute edit</span>
+      </div>
+      <div class="addon">
+        <span class="addon-name">Travel &amp; accommodation</span>
+        <span class="addon-price">POA</span>
+        <span class="addon-note">Calculated on request</span>
+      </div>
+      <div class="addon">
+        <span class="addon-name">Super 8 film</span>
+        <span class="addon-price">$880</span>
+        <span class="addon-note">Analogue film aesthetic</span>
+      </div>
+      <div class="addon">
+        <span class="addon-name">Camcorder</span>
+        <span class="addon-price">$550</span>
+        <span class="addon-note">Nostalgic video look</span>
+      </div>
+      <div class="addon">
+        <span class="addon-name">Social rush edit</span>
+        <span class="addon-price">$990</span>
+        <span class="addon-note">48hr turnaround</span>
+      </div>
     </div>
   </div>
-</div>
+</section>
 
-<div class="footnote">
-  A 35% deposit is required to secure your booking. Pricing is subject to change depending on season, time of year, and location.
-</div>
+<!-- Booking CTA — consolidated single CTA at the bottom -->
+<section class="booking-section">
+  <div class="booking-inner">
+    <span class="booking-eyebrow">Next step</span>
+    <h2 class="booking-heading">Ready to talk it <em>through?</em></h2>
+    <p class="booking-body">Book a call and we'll walk through the packages, your wedding plans, and any questions you have. A 35% deposit secures your date once you're ready.</p>
+    <a class="btn-primary" href="https://calendly.com/nathan-sol/30min" target="_blank" rel="noopener noreferrer">Book a call →</a>
+    <p class="footnote">Pricing is subject to change depending on season, time of year, and location.</p>
+  </div>
+</section>
 
 <script>
-function filterPkg(type, btn) {
-  document.querySelectorAll('.filter-btn').forEach(function(b){ b.classList.remove('active'); });
-  btn.classList.add('active');
-  document.querySelectorAll('.pkg-card').forEach(function(card) {
-    if(type === 'all' || card.dataset.type === type) {
-      card.style.display = 'block';
-      setTimeout(function(){ card.style.opacity='1'; card.style.transform=''; }, 10);
-    } else {
-      card.style.opacity = '0';
-      card.style.transform = 'scale(0.95)';
-      setTimeout(function(){ card.style.display='none'; }, 200);
-    }
-  });
-}
+  function filterPkg(type, btn) {
+    document.querySelectorAll('.filter-btn').forEach(function (b) {
+      b.classList.remove('active');
+      b.setAttribute('aria-pressed', 'false');
+    });
+    btn.classList.add('active');
+    btn.setAttribute('aria-pressed', 'true');
 
-function toggleCompare(btn) {
-  var section = document.getElementById('compareSection');
-  var isVisible = section.classList.contains('visible');
-  section.classList.toggle('visible');
-  btn.textContent = isVisible ? 'Compare all packages →' : 'Hide comparison ↑';
-  if(!isVisible) {
-    section.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    document.querySelectorAll('.pkg-card').forEach(function (card) {
+      if (type === 'all' || card.dataset.type === type) {
+        card.classList.remove('hidden');
+      } else {
+        card.classList.add('hidden');
+      }
+    });
   }
-}
+
+  function toggleCompare(btn) {
+    var section = document.getElementById('compareSection');
+    var isVisible = section.classList.contains('visible');
+    section.classList.toggle('visible');
+    section.setAttribute('aria-hidden', isVisible ? 'true' : 'false');
+    btn.setAttribute('aria-expanded', isVisible ? 'false' : 'true');
+    btn.textContent = isVisible ? 'Compare all packages →' : 'Hide comparison ↑';
+    if (!isVisible) {
+      section.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  }
 </script>
 
 </body>
