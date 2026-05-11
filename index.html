@@ -290,6 +290,54 @@
   }
 
   /* ============================================================
+     Per-card CTA — sits at the bottom of each card.
+     Light cards get a dark filled pill; the dark "Feature" card
+     gets an outlined inversion (white border, transparent fill,
+     fills to white on hover). Full width within the card's inner
+     padding so the tap target reads as committed. Transition
+     timing matches the card's hover ease.
+     ============================================================ */
+  .pkg-cta {
+    display: block;
+    width: 100%;
+    margin-top: 2rem;
+    padding: 14px 24px;
+    border-radius: 999px;
+    font-family: var(--sans);
+    font-size: 14px;
+    font-weight: 500;
+    letter-spacing: var(--tracking-soft);
+    text-align: center;
+    text-decoration: none;
+    cursor: pointer;
+    transition:
+      background 320ms var(--ease-cinematic),
+      color 320ms var(--ease-cinematic),
+      border-color 320ms var(--ease-cinematic);
+  }
+  /* Light-card variant — dark filled pill */
+  .pkg-card .pkg-cta {
+    background: var(--black);
+    color: var(--white);
+    border: 1px solid var(--black);
+  }
+  .pkg-card .pkg-cta:hover {
+    background: #222;
+    border-color: #222;
+  }
+  /* Dark-card variant — outlined inversion */
+  .pkg-card.recommended .pkg-cta {
+    background: transparent;
+    color: var(--white);
+    border: 1px solid rgba(255, 255, 255, 0.4);
+  }
+  .pkg-card.recommended .pkg-cta:hover {
+    background: var(--white);
+    color: var(--black);
+    border-color: var(--white);
+  }
+
+  /* ============================================================
      Compare toggle + section heading + table
      The toggle is a quiet underlined button; clicking it reveals
      the compare section. The expanded section opens with a clear
@@ -676,6 +724,7 @@
         <li>Ceremony &amp; Speeches — single cam raw (unedited)</li>
         <li>Digital delivery</li>
       </ul>
+      <a class="pkg-cta" href="https://calendly.com/nathan-sol/30min" target="_blank" rel="noopener noreferrer">Book a call</a>
     </article>
 
     <article class="pkg-card recommended">
@@ -694,6 +743,7 @@
         <li>Ceremony &amp; Speeches — 2x cam edited</li>
         <li>Digital delivery</li>
       </ul>
+      <a class="pkg-cta" href="https://calendly.com/nathan-sol/30min" target="_blank" rel="noopener noreferrer">Book a call</a>
     </article>
 
     <article class="pkg-card">
@@ -713,6 +763,7 @@
         <li>Raw &amp; Unedited footage (2hrs)</li>
         <li>Digital delivery</li>
       </ul>
+      <a class="pkg-cta" href="https://calendly.com/nathan-sol/30min" target="_blank" rel="noopener noreferrer">Book a call</a>
     </article>
 
   </div>
