@@ -415,25 +415,24 @@
     font-size: 15px;
   }
 
-  /* Vertical column dividers — slightly stronger than horizontal
-     row dividers. Editorial confidence without going heavy. */
+  /* No vertical dividers between columns — the row labels and
+     centred data values use whitespace alone to separate axes.
+     No background tint on any column either; the dark "Feature"
+     card above already establishes the Most-popular hierarchy. */
   .compare-table th,
   .compare-table td {
-    padding: 1.25rem 1.5rem;
+    padding: 1.75rem 1.5rem;
     text-align: left;
-    border-right: 1px solid var(--rule);
-    border-bottom: 1px solid var(--rule);
-  }
-  .compare-table th:last-child,
-  .compare-table td:last-child {
-    border-right: none;
+    border: none;
   }
 
-  /* Column headers — eyebrow style, dark, uppercase tracked sans.
-     Top divider is var(--rule-strong) for a confident table edge. */
+  /* Column headers — eyebrow style, dark, uppercase tracked.
+     No border below: whitespace alone separates the header row
+     from the data rows. Generous bottom padding for breathing
+     room before the first data row. */
   .compare-table thead th {
     padding-top: 0;
-    padding-bottom: 1.25rem;
+    padding-bottom: 2.25rem;
     font-family: var(--sans);
     font-size: 11px;
     font-weight: 500;
@@ -441,8 +440,6 @@
     text-transform: uppercase;
     color: var(--black);
     background: transparent;
-    border-top: 1px solid var(--rule-strong);
-    border-bottom: 1px solid var(--rule-strong);
     text-align: center;
   }
   .compare-table thead th:first-child {
@@ -450,45 +447,36 @@
     color: var(--mid);
   }
 
-  /* Body rows. First column reads as a row-label header — clean
-     dark text, slightly heavier weight, uppercase eyebrow style
-     to balance the column heads. Other columns center-align
-     their values. */
+  /* Body rows. First column reads as the row-axis: same uppercase
+     tracked register as column headers but muted in colour so
+     the eye registers it as labels, not data. Data columns are
+     centred. Horizontal hairline above each data row separates
+     adjacent rows; the divider uses --border (softer than --rule)
+     so the table doesn't feel grid-like. */
   .compare-table tbody td {
     color: var(--fg-prose);
     text-align: center;
+    border-top: 1px solid var(--border);
   }
   .compare-table tbody td:first-child {
     text-align: left;
-    color: var(--black);
+    color: var(--mid);
     font-family: var(--sans);
     font-size: 11px;
     font-weight: 500;
     letter-spacing: var(--tracking-eyebrow);
     text-transform: uppercase;
   }
+  /* Bottom edge of the table — slightly stronger than the
+     internal dividers so the table reads as a contained block. */
   .compare-table tbody tr:last-child td {
     border-bottom: 1px solid var(--rule-strong);
   }
 
-  /* Middle column (Feature / Most popular) gets a subtle tonal
-     tint — connects visually to the dark "Most popular" card
-     above without competing with it. The tint sits under both
-     the column header and every body cell in that column. */
-  .compare-table thead th:nth-child(3),
-  .compare-table tbody td:nth-child(3) {
-    background: var(--bg-tonal);
-  }
-
-  /* Row hover — gentle tone shift on the row. Skip the Feature
-     column override so the row hover doesn't fight the column
-     tint. */
+  /* Row hover — gentle 2.5% black overlay across the whole row
+     for readability. */
   .compare-table tbody tr:hover td {
     background: rgba(0, 0, 0, 0.025);
-  }
-  .compare-table tbody tr:hover td:nth-child(3) {
-    background: var(--bg-tonal);
-    filter: brightness(0.985);
   }
 
   .tick {
@@ -782,7 +770,7 @@
   <table class="compare-table">
     <thead>
       <tr>
-        <th scope="col">Feature</th>
+        <th scope="col">Includes</th>
         <th scope="col">Essential</th>
         <th scope="col">Feature</th>
         <th scope="col">Deluxe</th>
