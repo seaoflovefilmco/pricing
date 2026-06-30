@@ -8,31 +8,78 @@
 
 <!--
   Design system aligned to the main Sea of Love site (Astro project)
-  and the welcome guide. Season Mix (self-hosted, Regular weight) is
-  the serif throughout. No italic in this build: italic <em> words
-  render upright in Season Mix until a Season Mix italic is licensed.
+  and the welcome guide. The studio's licensed faces ship here too:
+  SeasonMix (display serif) and Stavok Grotesque (body sans), copied
+  from the main site's public/fonts and self-hosted by relative path
+  so this single static GitHub Pages file renders identically.
 -->
-
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500&display=swap">
 
 <style>
   /* ============================================================
-     Self-hosted Season Mix (Regular). Upright serif only.
+     SeasonMix: bespoke display serif, self-hosted woff2/woff.
+     Single licensed face (Regular 400 normal); italics and other
+     weights are browser-synthesised, matching the main site.
      ============================================================ */
   @font-face {
     font-family: 'Season Mix';
-    src: url('fonts/SeasonMix-Regular.woff2') format('woff2');
-    font-weight: 400 500;
+    src: url('fonts/seasonmix/SeasonMix-Regular.woff2') format('woff2'),
+         url('fonts/seasonmix/SeasonMix-Regular.woff') format('woff');
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+  }
+
+  /* ============================================================
+     Stavok Grotesque: licensed body/UI sans. Six faces covering
+     Light (300 normal + italic), Regular (400), SemiBold (600),
+     Bold (700 normal + italic). woff2 first, woff fallback.
+     ============================================================ */
+  @font-face {
+    font-family: 'Stavok Grotesque';
+    src: url('fonts/stavok/StavokGrotesque-Light.woff2') format('woff2'),
+         url('fonts/stavok/StavokGrotesque-Light.woff') format('woff');
+    font-weight: 300;
     font-style: normal;
     font-display: swap;
   }
   @font-face {
     font-family: 'Stavok Grotesque';
-    src: url('fonts/StavokGrotesque-Regular.woff2') format('woff2');
-    font-weight: 400 500;
+    src: url('fonts/stavok/StavokGrotesque-LightItalic.woff2') format('woff2'),
+         url('fonts/stavok/StavokGrotesque-LightItalic.woff') format('woff');
+    font-weight: 300;
+    font-style: italic;
+    font-display: swap;
+  }
+  @font-face {
+    font-family: 'Stavok Grotesque';
+    src: url('fonts/stavok/StavokGrotesque-Regular.woff2') format('woff2'),
+         url('fonts/stavok/StavokGrotesque-Regular.woff') format('woff');
+    font-weight: 400;
     font-style: normal;
+    font-display: swap;
+  }
+  @font-face {
+    font-family: 'Stavok Grotesque';
+    src: url('fonts/stavok/StavokGrotesque-SemiBold.woff2') format('woff2'),
+         url('fonts/stavok/StavokGrotesque-SemiBold.woff') format('woff');
+    font-weight: 600;
+    font-style: normal;
+    font-display: swap;
+  }
+  @font-face {
+    font-family: 'Stavok Grotesque';
+    src: url('fonts/stavok/StavokGrotesque-Bold.woff2') format('woff2'),
+         url('fonts/stavok/StavokGrotesque-Bold.woff') format('woff');
+    font-weight: 700;
+    font-style: normal;
+    font-display: swap;
+  }
+  @font-face {
+    font-family: 'Stavok Grotesque';
+    src: url('fonts/stavok/StavokGrotesque-BoldItalic.woff2') format('woff2'),
+         url('fonts/stavok/StavokGrotesque-BoldItalic.woff') format('woff');
+    font-weight: 700;
+    font-style: italic;
     font-display: swap;
   }
 
@@ -52,8 +99,7 @@
     --rule-on-dark: rgba(255, 255, 255, 0.10);
 
     --serif: 'Season Mix', Georgia, 'Times New Roman', serif;
-    --sans:  'DM Sans', system-ui, -apple-system, sans-serif;
-    --eyebrow: 'Stavok Grotesque', 'DM Sans', system-ui, sans-serif;
+    --sans:  'Stavok Grotesque', system-ui, -apple-system, sans-serif;
 
     --tracking-tight:        -0.02em;
     --tracking-snug:         -0.015em;
@@ -112,7 +158,7 @@
   .eyebrow {
     display: block;
     margin-bottom: 1rem;
-    font-family: var(--eyebrow);
+    font-family: var(--sans);
     font-size: 11px;
     font-weight: 400;
     letter-spacing: var(--tracking-eyebrow-wide);
@@ -201,9 +247,9 @@
     display: block;
     min-height: 14px;
     margin-bottom: 1.25rem;
-    font-family: var(--eyebrow);
+    font-family: var(--sans);
     font-size: 11px;
-    font-weight: 400;
+    font-weight: 500;
     letter-spacing: var(--tracking-eyebrow);
     text-transform: uppercase;
     color: var(--mid);
@@ -215,7 +261,7 @@
   .pkg-number {
     display: block;
     margin-bottom: 0.4rem;
-    font-family: var(--eyebrow);
+    font-family: var(--sans);
     font-size: 11px;
     letter-spacing: var(--tracking-eyebrow);
     text-transform: uppercase;
@@ -273,7 +319,7 @@
   .pkg-price-note {
     display: block;
     margin-bottom: 2rem;
-    font-family: var(--eyebrow);
+    font-family: var(--sans);
     font-size: 11px;
     letter-spacing: var(--tracking-eyebrow);
     text-transform: uppercase;
@@ -407,7 +453,7 @@
   .compare-eyebrow {
     display: block;
     margin-bottom: 0.75rem;
-    font-family: var(--eyebrow);
+    font-family: var(--sans);
     font-size: 11px;
     font-weight: 400;
     letter-spacing: var(--tracking-eyebrow-wide);
@@ -592,7 +638,7 @@
   }
   .addon-note {
     display: block;
-    font-family: var(--eyebrow);
+    font-family: var(--sans);
     font-size: 11px;
     letter-spacing: var(--tracking-eyebrow);
     text-transform: uppercase;
@@ -616,7 +662,7 @@
   .booking-eyebrow {
     display: block;
     margin-bottom: 1rem;
-    font-family: var(--eyebrow);
+    font-family: var(--sans);
     font-size: 11px;
     font-weight: 400;
     letter-spacing: var(--tracking-eyebrow-wide);
