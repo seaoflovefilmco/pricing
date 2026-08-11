@@ -214,6 +214,36 @@
     }
   }
 
+  /* Offer slot: wraps a card that has a promotional banner above
+     it. The slot is the grid item (so it still stretches to match
+     sibling card heights); the card inside gets flex: 1 to absorb
+     the stretch, keeping every card's body the same height while
+     the banner floats above as its own element. */
+  .pkg-offer-slot {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+  }
+  .pkg-offer-slot .pkg-card {
+    flex: 1;
+  }
+
+  .pkg-offer-banner {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 0.85rem;
+    padding: 12px 20px;
+    border-radius: 999px;
+    background: var(--black);
+    color: var(--white);
+    font-family: var(--sans);
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: var(--tracking-eyebrow);
+    text-transform: uppercase;
+  }
+
   .pkg-card {
     display: flex;
     flex-direction: column;
@@ -269,20 +299,6 @@
   }
   .pkg-card.recommended .pkg-number {
     color: rgba(255, 255, 255, 0.5);
-  }
-
-  .pkg-offer-badge {
-    display: inline-block;
-    margin-bottom: 0.75rem;
-    padding: 4px 12px;
-    border-radius: 999px;
-    background: var(--white);
-    color: var(--black);
-    font-family: var(--sans);
-    font-size: 11px;
-    font-weight: 500;
-    letter-spacing: var(--tracking-eyebrow);
-    text-transform: uppercase;
   }
 
   .pkg-name {
@@ -818,27 +834,29 @@
       <a class="pkg-cta" href="https://calendly.com/nathan-sol/30min" target="_blank" rel="noopener noreferrer">Book a call</a>
     </article>
 
-    <article class="pkg-card recommended">
-      <span class="pkg-rec-tag show">Most popular</span>
-      <span class="pkg-number">SOL 02</span>
-      <span class="pkg-offer-badge">August Offer</span>
-      <h2 class="pkg-name">Feature</h2>
-      <p class="pkg-tagline">Our most loved package. More time, more moments.</p>
-      <hr class="pkg-divider" />
-      <span class="pkg-price-old">$7,000 + GST</span>
-      <span class="pkg-price">$5,950</span>
-      <span class="pkg-price-note">+ GST · Excl. travel</span>
-      <p class="pkg-offer-copy">Book in August, wed anytime. August bookings only.</p>
-      <ul class="pkg-features">
-        <li>8 hours of coverage</li>
-        <li>One filmmaker</li>
-        <li>Highlight Film (4–5 mins)</li>
-        <li>Socials Hero (45s cut)</li>
-        <li>Ceremony &amp; Speeches: 2x cam edited</li>
-        <li>Digital delivery</li>
-      </ul>
-      <a class="pkg-cta" href="https://calendly.com/nathan-sol/30min" target="_blank" rel="noopener noreferrer">Book a call</a>
-    </article>
+    <div class="pkg-offer-slot">
+      <div class="pkg-offer-banner">August Offer</div>
+      <article class="pkg-card recommended">
+        <span class="pkg-rec-tag show">Most popular</span>
+        <span class="pkg-number">SOL 02</span>
+        <h2 class="pkg-name">Feature</h2>
+        <p class="pkg-tagline">Our most loved package. More time, more moments.</p>
+        <hr class="pkg-divider" />
+        <span class="pkg-price-old">$7,000 + GST</span>
+        <span class="pkg-price">$5,950</span>
+        <span class="pkg-price-note">+ GST · Excl. travel</span>
+        <p class="pkg-offer-copy">Book in August, wed anytime. August bookings only.</p>
+        <ul class="pkg-features">
+          <li>8 hours of coverage</li>
+          <li>One filmmaker</li>
+          <li>Highlight Film (4–5 mins)</li>
+          <li>Socials Hero (45s cut)</li>
+          <li>Ceremony &amp; Speeches: 2x cam edited</li>
+          <li>Digital delivery</li>
+        </ul>
+        <a class="pkg-cta" href="https://calendly.com/nathan-sol/30min" target="_blank" rel="noopener noreferrer">Book a call</a>
+      </article>
+    </div>
 
     <article class="pkg-card">
       <span class="pkg-rec-tag">&nbsp;</span>
