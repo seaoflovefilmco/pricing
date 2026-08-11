@@ -216,10 +216,15 @@
 
   /* Offer slot: wraps a card that has a promotional banner above
      it. The slot is the grid item (so it still stretches to match
-     sibling card heights); the card inside gets flex: 1 to absorb
-     the stretch, keeping every card's body the same height while
-     the banner floats above as its own element. */
+     sibling card heights) and stays relatively positioned purely
+     as the banner's anchor; the card inside gets flex: 1 to fill
+     the full stretched height, keeping every card's top AND
+     bottom edge aligned with its siblings. The banner itself is
+     taken out of flow (absolute + transform) so it contributes no
+     height to the grid row: it floats above the row entirely
+     rather than pushing SOL-02 down out of alignment. */
   .pkg-offer-slot {
+    position: relative;
     display: flex;
     flex-direction: column;
     height: 100%;
@@ -229,10 +234,14 @@
   }
 
   .pkg-offer-banner {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    transform: translateY(calc(-100% - 14px));
     display: flex;
     align-items: center;
     justify-content: center;
-    margin-bottom: 0.85rem;
     padding: 12px 20px;
     border-radius: 999px;
     background: var(--black);
@@ -835,7 +844,7 @@
     </article>
 
     <div class="pkg-offer-slot">
-      <div class="pkg-offer-banner">August Offer</div>
+      <div class="pkg-offer-banner">August Offer · 10% Off</div>
       <article class="pkg-card recommended">
         <span class="pkg-rec-tag show">Most popular</span>
         <span class="pkg-number">SOL 02</span>
@@ -843,7 +852,7 @@
         <p class="pkg-tagline">Our most loved package. More time, more moments.</p>
         <hr class="pkg-divider" />
         <span class="pkg-price-old">$7,000 + GST</span>
-        <span class="pkg-price">$5,950</span>
+        <span class="pkg-price">$6,300</span>
         <span class="pkg-price-note">+ GST · Excl. travel</span>
         <p class="pkg-offer-copy">Book in August, wed anytime. August bookings only.</p>
         <ul class="pkg-features">
