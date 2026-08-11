@@ -271,6 +271,20 @@
     color: rgba(255, 255, 255, 0.5);
   }
 
+  .pkg-offer-badge {
+    display: inline-block;
+    margin-bottom: 0.75rem;
+    padding: 4px 12px;
+    border-radius: 999px;
+    background: var(--white);
+    color: var(--black);
+    font-family: var(--sans);
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: var(--tracking-eyebrow);
+    text-transform: uppercase;
+  }
+
   .pkg-name {
     margin: 0 0 0.6rem;
     font-family: var(--serif);
@@ -327,6 +341,30 @@
   }
   .pkg-card.recommended .pkg-price-note {
     color: rgba(255, 255, 255, 0.5);
+  }
+
+  .pkg-price-old {
+    display: block;
+    margin: 0 0 0.25rem;
+    font-family: var(--sans);
+    font-size: 15px;
+    letter-spacing: var(--tracking-soft);
+    color: var(--mid);
+    text-decoration: line-through;
+  }
+  .pkg-card.recommended .pkg-price-old {
+    color: rgba(255, 255, 255, 0.5);
+  }
+
+  .pkg-offer-copy {
+    margin: -1.25rem 0 2rem;
+    font-family: var(--sans);
+    font-size: 13px;
+    line-height: 1.5;
+    color: var(--mid);
+  }
+  .pkg-card.recommended .pkg-offer-copy {
+    color: rgba(255, 255, 255, 0.7);
   }
 
   .pkg-features {
@@ -783,11 +821,14 @@
     <article class="pkg-card recommended">
       <span class="pkg-rec-tag show">Most popular</span>
       <span class="pkg-number">SOL 02</span>
+      <span class="pkg-offer-badge">August Offer</span>
       <h2 class="pkg-name">Feature</h2>
       <p class="pkg-tagline">Our most loved package. More time, more moments.</p>
       <hr class="pkg-divider" />
-      <span class="pkg-price">$7,000</span>
+      <span class="pkg-price-old">$7,000 + GST</span>
+      <span class="pkg-price">$5,950</span>
       <span class="pkg-price-note">+ GST · Excl. travel</span>
+      <p class="pkg-offer-copy">Book in August, wed anytime. August bookings only.</p>
       <ul class="pkg-features">
         <li>8 hours of coverage</li>
         <li>One filmmaker</li>
