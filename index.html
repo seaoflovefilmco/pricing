@@ -214,45 +214,6 @@
     }
   }
 
-  /* Offer slot: wraps a card that has a promotional banner above
-     it. The slot is the grid item (so it still stretches to match
-     sibling card heights) and stays relatively positioned purely
-     as the banner's anchor; the card inside gets flex: 1 to fill
-     the full stretched height, keeping every card's top AND
-     bottom edge aligned with its siblings. The banner itself is
-     taken out of flow (absolute + transform) so it contributes no
-     height to the grid row: it floats above the row entirely
-     rather than pushing SOL-02 down out of alignment. */
-  .pkg-offer-slot {
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    height: 100%;
-  }
-  .pkg-offer-slot .pkg-card {
-    flex: 1;
-  }
-
-  .pkg-offer-banner {
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    transform: translateY(calc(-100% - 14px));
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 12px 20px;
-    border-radius: 999px;
-    background: var(--black);
-    color: var(--white);
-    font-family: var(--sans);
-    font-size: 11px;
-    font-weight: 500;
-    letter-spacing: var(--tracking-eyebrow);
-    text-transform: uppercase;
-  }
-
   .pkg-card {
     display: flex;
     flex-direction: column;
@@ -366,30 +327,6 @@
   }
   .pkg-card.recommended .pkg-price-note {
     color: rgba(255, 255, 255, 0.5);
-  }
-
-  .pkg-price-old {
-    display: block;
-    margin: 0 0 0.25rem;
-    font-family: var(--sans);
-    font-size: 15px;
-    letter-spacing: var(--tracking-soft);
-    color: var(--mid);
-    text-decoration: line-through;
-  }
-  .pkg-card.recommended .pkg-price-old {
-    color: rgba(255, 255, 255, 0.5);
-  }
-
-  .pkg-offer-copy {
-    margin: -1.25rem 0 2rem;
-    font-family: var(--sans);
-    font-size: 13px;
-    line-height: 1.5;
-    color: var(--mid);
-  }
-  .pkg-card.recommended .pkg-offer-copy {
-    color: rgba(255, 255, 255, 0.7);
   }
 
   .pkg-features {
@@ -843,29 +780,24 @@
       <a class="pkg-cta" href="https://calendly.com/nathan-sol/30min" target="_blank" rel="noopener noreferrer">Book a call</a>
     </article>
 
-    <div class="pkg-offer-slot">
-      <div class="pkg-offer-banner">August Offer · 10% Off</div>
-      <article class="pkg-card recommended">
-        <span class="pkg-rec-tag show">Most popular</span>
-        <span class="pkg-number">SOL 02</span>
-        <h2 class="pkg-name">Feature</h2>
-        <p class="pkg-tagline">Our most loved package. More time, more moments.</p>
-        <hr class="pkg-divider" />
-        <span class="pkg-price-old">$7,000 + GST</span>
-        <span class="pkg-price">$6,300</span>
-        <span class="pkg-price-note">+ GST · Excl. travel</span>
-        <p class="pkg-offer-copy">Book in August, wed anytime. August bookings only.</p>
-        <ul class="pkg-features">
-          <li>8 hours of coverage</li>
-          <li>One filmmaker</li>
-          <li>Highlight Film (4–5 mins)</li>
-          <li>Socials Hero (45s cut)</li>
-          <li>Ceremony &amp; Speeches: 2x cam edited</li>
-          <li>Digital delivery</li>
-        </ul>
-        <a class="pkg-cta" href="https://calendly.com/nathan-sol/30min" target="_blank" rel="noopener noreferrer">Book a call</a>
-      </article>
-    </div>
+    <article class="pkg-card recommended">
+      <span class="pkg-rec-tag show">Most popular</span>
+      <span class="pkg-number">SOL 02</span>
+      <h2 class="pkg-name">Feature</h2>
+      <p class="pkg-tagline">Our most loved package. More time, more moments.</p>
+      <hr class="pkg-divider" />
+      <span class="pkg-price">$7,000</span>
+      <span class="pkg-price-note">+ GST · Excl. travel</span>
+      <ul class="pkg-features">
+        <li>8 hours of coverage</li>
+        <li>One filmmaker</li>
+        <li>Highlight Film (4–5 mins)</li>
+        <li>Socials Hero (45s cut)</li>
+        <li>Ceremony &amp; Speeches: 2x cam edited</li>
+        <li>Digital delivery</li>
+      </ul>
+      <a class="pkg-cta" href="https://calendly.com/nathan-sol/30min" target="_blank" rel="noopener noreferrer">Book a call</a>
+    </article>
 
     <article class="pkg-card">
       <span class="pkg-rec-tag">&nbsp;</span>
