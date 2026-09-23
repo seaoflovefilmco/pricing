@@ -84,857 +84,325 @@
   }
 
   /* ============================================================
-     Design tokens, ported from main site global.css
+     Liquid-glass pricing redesign. Translucent cards on a plain
+     off-white canvas: no borders, no drop shadows. Headings use
+     the studio's licensed Season Mix face declared above via
+     --font-display; UI chrome (eyebrows, buttons, table headers)
+     uses a system sans stack rather than Stavok.
      ============================================================ */
   :root {
-    --black:        #0a0a0a;
-    --white:        #fafaf8;
-    --mid:          #888880;
-    --bg-tonal:     #f4f4f2;
-    --fg-prose:     #444;
-    --fg-muted:     #666;
-    --border:       rgba(0, 0, 0, 0.07);
-    --rule:         rgba(0, 0, 0, 0.08);
-    --rule-strong:  rgba(0, 0, 0, 0.15);
-    --rule-on-dark: rgba(255, 255, 255, 0.10);
-
-    --serif: 'Season Mix', Georgia, 'Times New Roman', serif;
-    --sans:  'Stavok Grotesque', system-ui, -apple-system, sans-serif;
-
-    --tracking-tight:        -0.02em;
-    --tracking-snug:         -0.015em;
-    --tracking-soft:          0.02em;
-    --tracking-eyebrow:       0.16em;
-    --tracking-eyebrow-wide:  0.18em;
-
-    --duration-fast:   0.2s;
-    --duration-base:   0.3s;
-    --ease:            ease;
-    --ease-cinematic:  cubic-bezier(0.16, 1, 0.3, 1);
+    color-scheme: light;
+    --bg: #eeeeec;
+    --ink: #1c1b19;
+    --muted: #6e6e6b;
+    --faint: #9a9a96;
+    --glass-fill: rgba(255,255,255,0.78);
+    --glass-fill-strong: rgba(255,255,255,0.9);
+    --feature-fill: rgba(255,255,255,0.94);
+    --radius-lg: 26px;
+    --radius-md: 18px;
+    --radius-pill: 999px;
+    --font-display: "Season Mix", "Season", Georgia, "Times New Roman", serif;
+    --font-ui: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Inter", "Helvetica Neue", Arial, sans-serif;
+    --max: 1180px;
   }
-
-  *, *::before, *::after {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
-  }
-
-  html {
-    scroll-behavior: smooth;
-    -webkit-text-size-adjust: 100%;
-  }
-
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
   body {
-    font-family: var(--serif);
-    font-size: 17px;
-    font-weight: 400;
-    line-height: 1.7;
-    color: var(--black);
-    background: var(--white);
+    margin: 0;
+    background: var(--bg);
+    color: var(--ink);
+    font-family: var(--font-ui);
     -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
+    padding-top: env(safe-area-inset-top, 0px);
+    padding-bottom: env(safe-area-inset-bottom, 0px);
   }
-
-  /* ============================================================
-     Layout
-     ============================================================ */
-  .container {
-    max-width: 1100px;
-    margin: 0 auto;
-    padding: 0 1.5rem;
+  .wrap { max-width: var(--max); margin: 0 auto; padding: 0 24px; }
+  .glass {
+    background: var(--glass-fill);
+    border-radius: var(--radius-lg);
+    backdrop-filter: blur(6px) saturate(160%);
+    -webkit-backdrop-filter: blur(6px) saturate(160%);
+    position: relative;
+    overflow: hidden;
   }
-
-  /* ============================================================
-     Hero
-     ============================================================ */
   .hero {
-    padding: 5rem 1.5rem 3rem;
+    padding: 96px 24px 64px;
     text-align: center;
-  }
-  .hero-inner {
-    max-width: 720px;
-    margin: 0 auto;
-  }
-  .eyebrow {
-    display: block;
-    margin-bottom: 1rem;
-    font-family: var(--sans);
-    font-size: 11px;
-    font-weight: 400;
-    letter-spacing: var(--tracking-eyebrow-wide);
-    text-transform: uppercase;
-    color: var(--mid);
-  }
-  .hero h1 {
-    margin: 0 0 1.25rem;
-    font-family: var(--serif);
-    font-size: clamp(40px, 6vw, 72px);
-    font-weight: 400;
-    line-height: 1.05;
-    letter-spacing: var(--tracking-tight);
-    color: var(--black);
-  }
-  .hero h1 em {
-    font-style: normal;
-  }
-  .hero p {
-    margin: 0 auto;
-    max-width: 520px;
-    font-family: var(--serif);
-    font-size: 17px;
-    line-height: 1.6;
-    color: var(--fg-prose);
-  }
-
-  /* ============================================================
-     Package cards
-     Three-up grid at desktop. Each card has the same structure;
-     the "Most popular" middle card uses a dark inversion to draw
-     emphasis (commercial intent + matches main site's editorial
-     use of dark sections like the about legacy block).
-
-     Hover: subtle 4px lift + soft shadow, 320ms cinematic ease.
-     Border darkens slightly on hover. Cursor stays default;
-     the cards aren't clickable, hover is tactile polish only.
-     ============================================================ */
-  .pkg-section {
-    padding: 3rem 1.5rem;
-  }
-  .pkg-grid {
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: 1.25rem;
-    max-width: 1100px;
-    margin: 0 auto;
-  }
-  @media (min-width: 800px) {
-    .pkg-grid {
-      grid-template-columns: repeat(3, 1fr);
-      align-items: stretch;
-    }
-  }
-
-  .pkg-card {
     display: flex;
     flex-direction: column;
-    padding: 2.5rem 2rem;
-    background: var(--white);
-    border: 1px solid var(--rule);
-    transition:
-      transform 320ms var(--ease-cinematic),
-      box-shadow 320ms var(--ease-cinematic),
-      border-color 320ms var(--ease-cinematic);
+    align-items: center;
   }
-  .pkg-card:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.06);
-    border-color: rgba(0, 0, 0, 0.15);
-  }
-  .pkg-card.recommended {
-    background: var(--black);
-    color: var(--white);
-    border-color: var(--black);
-  }
-  /* Dark card sits on white, so the shadow needs slightly more
-     weight to read as an equivalent lift. Border stays black;
-     the dark card's edge is already maximally defined. */
-  .pkg-card.recommended:hover {
-    box-shadow: 0 16px 40px rgba(0, 0, 0, 0.18);
-    border-color: var(--black);
-  }
-
-  .pkg-rec-tag {
-    display: block;
-    min-height: 14px;
-    margin-bottom: 1.25rem;
-    font-family: var(--sans);
-    font-size: 11px;
-    font-weight: 500;
-    letter-spacing: var(--tracking-eyebrow);
-    text-transform: uppercase;
-    color: var(--mid);
-  }
-  .pkg-rec-tag.show {
-    color: var(--white);
-  }
-
-  .pkg-number {
-    display: block;
-    margin-bottom: 0.4rem;
-    font-family: var(--sans);
-    font-size: 11px;
-    letter-spacing: var(--tracking-eyebrow);
-    text-transform: uppercase;
-    color: var(--mid);
-  }
-  .pkg-card.recommended .pkg-number {
-    color: rgba(255, 255, 255, 0.5);
-  }
-
-  .pkg-name {
-    margin: 0 0 0.6rem;
-    font-family: var(--serif);
-    font-size: clamp(28px, 3vw, 36px);
+  .hero .eyebrow { font-size: 13px; letter-spacing: 0.14em; color: var(--faint); margin-bottom: 18px; }
+  .hero h1 {
+    font-family: var(--font-display);
     font-weight: 400;
+    font-size: clamp(38px, 6vw, 72px);
     line-height: 1.05;
-    letter-spacing: var(--tracking-snug);
-    color: inherit;
+    letter-spacing: -0.01em;
+    margin: 0 0 20px;
+    max-width: 16ch;
   }
-
-  .pkg-tagline {
-    margin: 0 0 1.75rem;
-    font-family: var(--serif);
-    font-style: normal;
-    font-size: 16px;
-    line-height: 1.4;
-    color: var(--fg-prose);
-    min-height: 44px;
-  }
-  .pkg-card.recommended .pkg-tagline {
-    color: rgba(255, 255, 255, 0.7);
-  }
-
-  .pkg-divider {
-    height: 1px;
-    margin: 0 0 1.5rem;
-    background: var(--rule);
-    border: none;
-  }
-  .pkg-card.recommended .pkg-divider {
-    background: var(--rule-on-dark);
-  }
-
-  /* Price: the editorial focal point of the card. Large serif,
-     generous breathing room. */
-  .pkg-price {
-    display: block;
-    margin: 0 0 0.4rem;
-    font-family: var(--serif);
-    font-size: clamp(48px, 5vw, 64px);
+  .hero h1 em { font-style: italic; }
+  .hero p { font-size: 18px; line-height: 1.5; color: var(--muted); max-width: 46ch; margin: 0; }
+  .section-head { text-align: center; max-width: 640px; margin: 0 auto 48px; }
+  .section-head h2 {
+    font-family: var(--font-display);
     font-weight: 400;
-    line-height: 1;
-    letter-spacing: var(--tracking-tight);
-    color: inherit;
+    font-size: clamp(28px, 3.4vw, 42px);
+    line-height: 1.1;
+    margin: 0 0 12px;
   }
-  .pkg-price-note {
-    display: block;
-    margin-bottom: 2rem;
-    font-family: var(--sans);
-    font-size: 11px;
-    letter-spacing: var(--tracking-eyebrow);
-    text-transform: uppercase;
-    color: var(--mid);
+  .section-head h2 em { font-style: italic; }
+  .section-head p { color: var(--muted); font-size: 16px; line-height: 1.5; margin: 0; }
+  .pricing { padding: 40px 0 90px; }
+  .cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; align-items: stretch; }
+  .card { padding: 34px 30px 30px; display: flex; flex-direction: column; }
+  .card.featured {
+    background: var(--feature-fill);
+    transform: translateY(-22px);
   }
-  .pkg-card.recommended .pkg-price-note {
-    color: rgba(255, 255, 255, 0.5);
-  }
-
-  .pkg-features {
-    margin: 0;
-    padding: 0;
-    list-style: none;
-    flex: 1;
-  }
-  .pkg-features li {
-    padding: 0.625rem 0;
-    border-top: 1px solid var(--rule);
-    font-family: var(--sans);
-    font-size: 14px;
-    line-height: 1.5;
-    color: var(--fg-prose);
-  }
-  .pkg-features li:last-child {
-    border-bottom: 1px solid var(--rule);
-  }
-  .pkg-card.recommended .pkg-features li {
-    border-top-color: var(--rule-on-dark);
-    color: rgba(255, 255, 255, 0.85);
-  }
-  .pkg-card.recommended .pkg-features li:last-child {
-    border-bottom-color: var(--rule-on-dark);
-  }
-
-  /* ============================================================
-     Per-card CTA sits at the bottom of each card.
-     Light cards get a dark filled pill; the dark "Feature" card
-     gets an outlined inversion (white border, transparent fill,
-     fills to white on hover). Full width within the card's inner
-     padding so the tap target reads as committed. Transition
-     timing matches the card's hover ease.
-     ============================================================ */
-  .pkg-cta {
-    display: block;
-    width: 100%;
-    margin-top: 2rem;
-    padding: 14px 24px;
-    border-radius: 999px;
-    font-family: var(--sans);
-    font-size: 14px;
-    font-weight: 500;
-    letter-spacing: var(--tracking-soft);
-    text-align: center;
-    text-decoration: none;
-    cursor: pointer;
-    transition:
-      background 320ms var(--ease-cinematic),
-      color 320ms var(--ease-cinematic),
-      border-color 320ms var(--ease-cinematic);
-  }
-  /* Light-card variant: dark filled pill */
-  .pkg-card .pkg-cta {
-    background: var(--black);
-    color: var(--white);
-    border: 1px solid var(--black);
-  }
-  .pkg-card .pkg-cta:hover {
-    background: #222;
-    border-color: #222;
-  }
-  /* Dark-card variant: outlined inversion */
-  .pkg-card.recommended .pkg-cta {
-    background: transparent;
-    color: var(--white);
-    border: 1px solid rgba(255, 255, 255, 0.4);
-  }
-  .pkg-card.recommended .pkg-cta:hover {
-    background: var(--white);
-    color: var(--black);
-    border-color: var(--white);
-  }
-
-  /* ============================================================
-     Compare toggle + section heading + table
-     The toggle is a quiet underlined button; clicking it reveals
-     the compare section. The expanded section opens with a clear
-     editorial header (eyebrow + italic-serif sub) before the
-     table itself, so the table reads as a deliberate moment
-     rather than a quiet appendix.
-     ============================================================ */
-  .compare-toggle-row {
+  .feature-bar {
+    height: 40px;
+    margin: -34px -30px 16px -30px;
     display: flex;
+    align-items: center;
     justify-content: center;
-    margin: 2rem 0 0;
-  }
-  .compare-toggle {
-    padding: 0;
-    border: none;
-    background: transparent;
-    color: var(--black);
-    font-family: var(--sans);
-    font-size: 14px;
-    font-weight: 500;
-    letter-spacing: var(--tracking-soft);
-    text-decoration: underline;
-    text-decoration-thickness: 1px;
-    text-underline-offset: 0.3em;
-    cursor: pointer;
-    transition: opacity var(--duration-fast) var(--ease);
-  }
-  .compare-toggle:hover {
-    opacity: 0.7;
-  }
-
-  .compare-section {
-    max-width: 1100px;
-    margin: 0 auto;
-    padding: 4rem 1.5rem 0;
-    display: none;
-  }
-  .compare-section.visible {
-    display: block;
-  }
-
-  /* Section header: eyebrow + italic-serif sub-heading sit
-     above the table so the compare moment reads as deliberate. */
-  .compare-header {
-    margin-bottom: 2.5rem;
-    text-align: center;
-  }
-  .compare-eyebrow {
-    display: block;
-    margin-bottom: 0.75rem;
-    font-family: var(--sans);
-    font-size: 11px;
-    font-weight: 400;
-    letter-spacing: var(--tracking-eyebrow-wide);
-    text-transform: uppercase;
-    color: var(--mid);
-  }
-  .compare-sub {
-    margin: 0;
-    font-family: var(--serif);
-    font-size: clamp(28px, 3.5vw, 40px);
-    font-weight: 400;
-    line-height: 1.1;
-    letter-spacing: var(--tracking-snug);
-    color: var(--black);
-  }
-  .compare-sub em {
-    font-style: normal;
-  }
-
-  .compare-table {
-    width: 100%;
-    border-collapse: collapse;
-    font-family: var(--sans);
-    font-size: 15px;
-  }
-
-  /* No vertical dividers between columns; the row labels and
-     centred data values use whitespace alone to separate axes.
-     No background tint on any column either; the dark "Feature"
-     card above already establishes the Most-popular hierarchy. */
-  .compare-table th,
-  .compare-table td {
-    padding: 1.75rem 1.5rem;
-    text-align: left;
-    border: none;
-  }
-
-  /* Column headers: eyebrow style, dark, uppercase tracked.
-     No border below: whitespace alone separates the header row
-     from the data rows. Generous bottom padding for breathing
-     room before the first data row. */
-  .compare-table thead th {
-    padding-top: 0;
-    padding-bottom: 2.25rem;
-    font-family: var(--sans);
-    font-size: 11px;
-    font-weight: 500;
-    letter-spacing: var(--tracking-eyebrow-wide);
-    text-transform: uppercase;
-    color: var(--black);
-    background: transparent;
-    text-align: center;
-  }
-  .compare-table thead th:first-child {
-    text-align: left;
-    color: var(--mid);
-  }
-
-  /* Body rows. First column reads as the row-axis: same uppercase
-     tracked register as column headers but muted in colour so
-     the eye registers it as labels, not data. Data columns are
-     centred. Horizontal hairline above each data row separates
-     adjacent rows; the divider uses --border (softer than --rule)
-     so the table doesn't feel grid-like. */
-  .compare-table tbody td {
-    color: var(--fg-prose);
-    text-align: center;
-    border-top: 1px solid var(--border);
-  }
-  .compare-table tbody td:first-child {
-    text-align: left;
-    color: var(--mid);
-    font-family: var(--sans);
-    font-size: 11px;
-    font-weight: 500;
-    letter-spacing: var(--tracking-eyebrow);
-    text-transform: uppercase;
-  }
-  /* Bottom edge of the table, slightly stronger than the
-     internal dividers so the table reads as a contained block. */
-  .compare-table tbody tr:last-child td {
-    border-bottom: 1px solid var(--rule-strong);
-  }
-
-  /* Row hover: gentle 2.5% black overlay across the whole row
-     for readability. */
-  .compare-table tbody tr:hover td {
-    background: rgba(0, 0, 0, 0.025);
-  }
-
-  .tick {
-    color: var(--black);
-    font-size: 16px;
-  }
-  .dash {
-    color: var(--mid);
-    opacity: 0.6;
-  }
-
-  /* ============================================================
-     Add-ons
-     Flat editorial grid, no card chrome. Each add-on reads as a
-     small typographic block: name, price, note.
-     ============================================================ */
-  .addons-section {
-    padding: 5rem 1.5rem 4rem;
-    background: var(--white);
-    border-top: 1px solid var(--rule);
-    margin-top: 5rem;
-  }
-  .addons-inner {
-    max-width: 1100px;
-    margin: 0 auto;
-  }
-  .addons-header {
-    margin-bottom: 2.5rem;
-    text-align: center;
-  }
-  .addons-title {
-    margin: 0;
-    font-family: var(--serif);
-    font-size: clamp(28px, 3.5vw, 40px);
-    font-weight: 400;
-    line-height: 1.1;
-    letter-spacing: var(--tracking-snug);
-    color: var(--black);
-  }
-  .addons-title em {
-    font-style: normal;
-  }
-  .addons-grid {
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: 0;
-  }
-  @media (min-width: 600px) {
-    .addons-grid {
-      grid-template-columns: repeat(2, 1fr);
-    }
-  }
-  @media (min-width: 900px) {
-    .addons-grid {
-      grid-template-columns: repeat(3, 1fr);
-    }
-  }
-  .addon {
-    padding: 1.5rem 1.5rem 1.5rem 0;
-    border-top: 1px solid var(--rule);
-  }
-  @media (min-width: 600px) {
-    .addon {
-      padding: 1.5rem;
-    }
-    .addon:nth-child(odd) {
-      padding-left: 0;
-    }
-  }
-  @media (min-width: 900px) {
-    .addon {
-      padding: 1.5rem;
-    }
-    .addon:nth-child(odd) { padding-left: 1.5rem; }
-    .addon:nth-child(3n+1) { padding-left: 0; }
-  }
-  .addon-name {
-    display: block;
-    margin-bottom: 0.5rem;
-    font-family: var(--sans);
-    font-size: 13px;
-    letter-spacing: var(--tracking-soft);
-    color: var(--mid);
-  }
-  .addon-price {
-    display: block;
-    margin-bottom: 0.4rem;
-    font-family: var(--serif);
-    font-size: clamp(24px, 2.6vw, 32px);
-    font-weight: 400;
-    line-height: 1;
-    letter-spacing: var(--tracking-snug);
-    color: var(--black);
-  }
-  .addon-note {
-    display: block;
-    font-family: var(--sans);
-    font-size: 11px;
-    letter-spacing: var(--tracking-eyebrow);
-    text-transform: uppercase;
-    color: var(--mid);
-  }
-
-  /* ============================================================
-     Booking CTA, consolidated at the bottom.
-     Single Calendly button instead of inline CTAs in each card.
-     Sits on a tonal surface to mark the closer.
-     ============================================================ */
-  .booking-section {
-    padding: 6rem 1.5rem;
-    background: var(--bg-tonal);
-    text-align: center;
-  }
-  .booking-inner {
-    max-width: 640px;
-    margin: 0 auto;
-  }
-  .booking-eyebrow {
-    display: block;
-    margin-bottom: 1rem;
-    font-family: var(--sans);
-    font-size: 11px;
-    font-weight: 400;
-    letter-spacing: var(--tracking-eyebrow-wide);
-    text-transform: uppercase;
-    color: var(--mid);
-  }
-  .booking-heading {
-    margin: 0 0 1.25rem;
-    font-family: var(--serif);
-    font-size: clamp(32px, 4vw, 48px);
-    font-weight: 400;
-    line-height: 1.1;
-    letter-spacing: var(--tracking-snug);
-    color: var(--black);
-  }
-  .booking-heading em {
-    font-style: normal;
-  }
-  .booking-body {
-    margin: 0 auto 2rem;
-    max-width: 480px;
-    font-family: var(--serif);
-    font-size: 17px;
-    line-height: 1.6;
-    color: var(--fg-prose);
-  }
-  .btn-primary {
-    display: inline-block;
-    padding: 13px 30px;
-    background: var(--black);
-    color: var(--white);
-    border: 1px solid var(--black);
-    border-radius: 999px;
-    font-family: var(--sans);
-    font-size: 14px;
-    font-weight: 500;
-    letter-spacing: var(--tracking-soft);
-    text-decoration: none;
-    cursor: pointer;
-    transition:
-      background var(--duration-fast) var(--ease),
-      border-color var(--duration-fast) var(--ease);
-  }
-  .btn-primary:hover {
-    background: #222;
-    border-color: #222;
-  }
-
-  .footnote {
-    margin: 2rem auto 0;
-    max-width: 480px;
-    font-family: var(--sans);
+    background-image: url("images/sol02-bar.jpg");
+    background-size: cover;
+    background-position: center;
+    color: #fff;
     font-size: 12px;
-    line-height: 1.6;
-    color: var(--mid);
+    letter-spacing: 0.12em;
   }
-
-  /* ============================================================
-     Mobile
-     ============================================================ */
-  @media (max-width: 600px) {
-    .hero {
-      padding: 4rem 1.25rem 2rem;
-    }
-    .pkg-card {
-      padding: 2rem 1.5rem;
-    }
-    .pkg-price {
-      font-size: 44px;
-    }
-    .compare-table th,
-    .compare-table td {
-      padding: 0.75rem;
-      font-size: 13px;
-    }
-    .addons-section {
-      padding: 3rem 1.25rem 3rem;
-      margin-top: 3rem;
-    }
-    .booking-section {
-      padding: 4rem 1.25rem;
-    }
+  .card .sku { font-size: 12px; letter-spacing: 0.1em; color: var(--faint); margin-bottom: 10px; }
+  .card h3 { font-family: var(--font-display); font-weight: 400; font-size: 30px; margin: 0 0 10px; color: var(--ink); }
+  .card .desc { color: var(--muted); font-size: 15px; line-height: 1.5; margin: 0 0 22px; min-height: 48px; }
+  .card .price { font-family: var(--font-display); font-size: 42px; margin: 0 0 4px; color: var(--ink); }
+  .card .price-note { font-size: 12px; color: var(--faint); letter-spacing: 0.04em; margin-bottom: 22px; }
+  .card hr { border: none; border-top: 1px solid rgba(28,27,25,0.08); margin: 0 0 22px; }
+  .card ul { list-style: none; margin: 0 0 28px; padding: 0; flex-grow: 1; }
+  .card ul li {
+    font-size: 14.5px; line-height: 1.5; color: var(--ink);
+    padding: 8px 0; border-bottom: 1px solid rgba(28,27,25,0.06);
+    display: flex; gap: 10px;
+  }
+  .card ul li:last-child { border-bottom: none; }
+  .card ul li::before {
+    content: ""; flex: 0 0 auto; width: 5px; height: 5px; margin-top: 8px;
+    border-radius: 50%; background: var(--faint);
+  }
+  .btn { display: inline-block; text-align: center; text-decoration: none; font-size: 15px; padding: 13px 0; border-radius: var(--radius-pill); width: 100%; }
+  .btn-glass {
+    background: rgba(255,255,255,0.55);
+    border: 1px solid rgba(28,27,25,0.14);
+    color: var(--ink);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+  }
+  .btn-solid { background: var(--ink); color: #fff; border: 1px solid var(--ink); }
+  .compare-link { text-align: center; margin-top: 40px; }
+  .compare-link a { color: var(--muted); font-size: 14px; text-decoration: underline; text-underline-offset: 4px; }
+  .compare { padding: 20px 0 90px; }
+  .compare-panel { padding: 8px 8px 16px; overflow-x: auto; }
+  table { width: 100%; border-collapse: collapse; min-width: 620px; table-layout: fixed; }
+  col.col-label { width: 30%; }
+  col.col-tier { width: 23.33%; }
+  th, td { text-align: left; padding: 18px 28px; font-size: 14.5px; border-bottom: 1px solid rgba(28,27,25,0.07); white-space: nowrap; }
+  thead th { font-family: var(--font-ui); font-weight: 600; color: var(--ink); font-size: 13px; letter-spacing: 0.04em; padding-top: 22px; }
+  tbody th { font-weight: 400; color: var(--muted); white-space: normal; }
+  tbody td { color: var(--ink); white-space: normal; }
+  tbody tr:last-child th, tbody tr:last-child td { border-bottom: none; }
+  .addons { padding: 20px 0 90px; }
+  .addon-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+  .addon { padding: 20px 22px; display: flex; flex-direction: column; gap: 6px; }
+  .addon .row { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; }
+  .addon .name { font-size: 15px; color: var(--ink); }
+  .addon .price { font-family: var(--font-display); font-size: 19px; color: var(--ink); }
+  .addon .note { font-size: 13px; color: var(--faint); }
+  .final { padding: 20px 24px 120px; }
+  .final-panel {
+    max-width: 760px;
+    margin: 0 auto;
+    padding: 64px 48px;
+    text-align: center;
+    background-color: transparent;
+    background-image: linear-gradient(180deg, rgba(10,25,35,0.06), rgba(10,25,35,0.16)), url("images/cta-bg.jpg");
+    background-size: cover;
+    background-position: center;
+  }
+  .final-panel h2 { font-family: var(--font-display); font-weight: 400; font-size: clamp(26px, 3.2vw, 38px); margin: 0 0 16px; color: #fff; text-shadow: 0 1px 12px rgba(0,0,0,0.25); }
+  .final-panel h2 em { font-style: italic; }
+  .final-panel p { color: rgba(255,255,255,0.92); font-size: 16px; line-height: 1.5; max-width: 46ch; margin: 0 auto 28px; text-shadow: 0 1px 8px rgba(0,0,0,0.2); }
+  .final-panel .btn { width: auto; padding: 15px 34px; display: inline-block; }
+  .final-panel .btn-solid { background: #fff; color: var(--ink); border-color: #fff; }
+  .final-note { text-align: center; color: var(--faint); font-size: 12.5px; margin-top: 24px; }
+  @media (max-width: 900px) {
+    .cards { grid-template-columns: 1fr; }
+    .card.featured { transform: none; }
+    .addon-grid { grid-template-columns: 1fr 1fr; }
+  }
+  @media (max-width: 560px) {
+    .addon-grid { grid-template-columns: 1fr; }
+    .final-panel { padding: 40px 26px; }
+    th, td { padding: 12px 12px; }
+  }
+  .check {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    background: #4cc02b;
+    color: #fff;
+    font-size: 11px;
+    line-height: 1;
+    vertical-align: -3px;
+  }
+  .no {
+    color: var(--faint);
+    font-size: 14px;
   }
 </style>
 </head>
 <body>
 
-<header class="hero">
-  <div class="hero-inner">
-    <span class="eyebrow">Sea of Love</span>
-    <h1>Find your perfect <em>film package.</em></h1>
-    <p>Every love story is different. Here's how we can tell yours. All prices exclude GST and travel.</p>
-  </div>
-</header>
+<section class="hero">
+  <div class="eyebrow">Packages</div>
+  <h1>Find your perfect <em>film package.</em></h1>
+  <p>Every love story is different. Here's how we can tell yours. All prices exclude GST and travel.</p>
+</section>
 
-<section class="pkg-section">
-  <div class="pkg-grid">
+<section class="pricing">
+  <div class="wrap">
+    <div class="cards">
 
-    <article class="pkg-card">
-      <span class="pkg-rec-tag">&nbsp;</span>
-      <span class="pkg-number">SOL 01</span>
-      <h2 class="pkg-name">Essential</h2>
-      <p class="pkg-tagline">Intimate coverage for a beautifully focused day.</p>
-      <hr class="pkg-divider" />
-      <span class="pkg-price">$5,000</span>
-      <span class="pkg-price-note">+ GST · Excl. travel</span>
-      <ul class="pkg-features">
-        <li>7 hours of coverage</li>
-        <li>One filmmaker</li>
-        <li>Highlight Film (4–5 mins)</li>
-        <li>Socials Hero (45s cut)</li>
-        <li>Ceremony &amp; Speeches: single cam raw (unedited)</li>
-        <li>Digital delivery</li>
-      </ul>
-      <a class="pkg-cta" href="https://calendly.com/nathan-sol/30min" target="_blank" rel="noopener noreferrer">Book a call</a>
-    </article>
+      <div class="card glass">
+        <div class="sku">SOL 01</div>
+        <h3>Essential</h3>
+        <p class="desc">Intimate coverage for a beautifully focused day.</p>
+        <div class="price">$5,000</div>
+        <div class="price-note">+ GST · Excl. travel</div>
+        <hr>
+        <ul>
+          <li>7 hours of coverage</li>
+          <li>One filmmaker</li>
+          <li>Wedding Short (1m cut) (incl. vocals)</li>
+          <li>Ceremony &amp; Speeches: single-cam raw (unedited)</li>
+          <li>Digital delivery</li>
+        </ul>
+        <a class="btn btn-glass" href="https://calendly.com/nathan-sol/30min">Book a call</a>
+      </div>
 
-    <article class="pkg-card recommended">
-      <span class="pkg-rec-tag show">Most popular</span>
-      <span class="pkg-number">SOL 02</span>
-      <h2 class="pkg-name">Feature</h2>
-      <p class="pkg-tagline">Our most loved package. More time, more moments.</p>
-      <hr class="pkg-divider" />
-      <span class="pkg-price">$7,000</span>
-      <span class="pkg-price-note">+ GST · Excl. travel</span>
-      <ul class="pkg-features">
-        <li>9 hours of coverage</li>
-        <li>One filmmaker</li>
-        <li>Highlight Film (4–5 mins)</li>
-        <li>Socials Hero (45s cut)</li>
-        <li>Ceremony &amp; Speeches: 2x cam edited</li>
-        <li>Digital delivery</li>
-      </ul>
-      <a class="pkg-cta" href="https://calendly.com/nathan-sol/30min" target="_blank" rel="noopener noreferrer">Book a call</a>
-    </article>
+      <div class="card glass featured">
+        <div class="feature-bar">Most popular</div>
+        <div class="sku">SOL 02</div>
+        <h3>Feature</h3>
+        <p class="desc">Our most loved package. More time, more moments.</p>
+        <div class="price">$7,000</div>
+        <div class="price-note">+ GST · Excl. travel</div>
+        <hr>
+        <ul>
+          <li>9 hours of coverage</li>
+          <li>One filmmaker</li>
+          <li>Wedding Film (4–6 mins)</li>
+          <li>Wedding Short (45s cut)</li>
+          <li>Ceremony &amp; Speeches: 2x cam edited</li>
+          <li>Digital delivery</li>
+        </ul>
+        <a class="btn btn-solid" href="https://calendly.com/nathan-sol/30min">Book a call</a>
+      </div>
 
-    <article class="pkg-card">
-      <span class="pkg-rec-tag">&nbsp;</span>
-      <span class="pkg-number">SOL 03</span>
-      <h2 class="pkg-name">Deluxe</h2>
-      <p class="pkg-tagline">Full day. Two filmmakers. Every single moment.</p>
-      <hr class="pkg-divider" />
-      <span class="pkg-price">$10,000</span>
-      <span class="pkg-price-note">+ GST · Excl. travel</span>
-      <ul class="pkg-features">
-        <li>Full day (up to 12 hours)</li>
-        <li>Two filmmakers</li>
-        <li>Drone coverage</li>
-        <li>Highlight Film (4–5 mins)</li>
-        <li>Socials Hero (45s cut)</li>
-        <li>Ceremony &amp; Speeches: 3x cam edited</li>
-        <li>Raw &amp; Unedited footage (2hrs)</li>
-        <li>Digital delivery</li>
-      </ul>
-      <a class="pkg-cta" href="https://calendly.com/nathan-sol/30min" target="_blank" rel="noopener noreferrer">Book a call</a>
-    </article>
+      <div class="card glass">
+        <div class="sku">SOL 03</div>
+        <h3>Deluxe</h3>
+        <p class="desc">Recommended for weddings with over 200 guests</p>
+        <div class="price">$10,000</div>
+        <div class="price-note">+ GST · Excl. travel</div>
+        <hr>
+        <ul>
+          <li>Full day (up to 12 hours)</li>
+          <li>Two filmmakers (cinema cameras &amp; super 8)</li>
+          <li>Wedding Film (4–6 mins)</li>
+          <li>2x Wedding Shorts (45s each)</li>
+          <li>Ceremony &amp; Speeches Films: 3x camera edited sequences</li>
+          <li>Raw &amp; Unedited footage (2hrs of selected moments)</li>
+          <li>Drone coverage</li>
+          <li>Digital delivery + gift pack</li>
+        </ul>
+        <a class="btn btn-glass" href="https://calendly.com/nathan-sol/30min">Book a call</a>
+      </div>
 
-  </div>
-
-  <div class="compare-toggle-row">
-    <button type="button" class="compare-toggle" onclick="toggleCompare(this)" aria-expanded="false" aria-controls="compareSection">Compare all packages →</button>
+    </div>
+    <div class="compare-link"><a href="#compare">Compare all packages →</a></div>
   </div>
 </section>
 
-<!-- Compare table -->
-<section class="compare-section" id="compareSection" aria-hidden="true">
-  <header class="compare-header">
-    <span class="compare-eyebrow">Compare packages</span>
-    <p class="compare-sub">At a <em>glance.</em></p>
-  </header>
-  <table class="compare-table">
-    <thead>
-      <tr>
-        <th scope="col">Includes</th>
-        <th scope="col">Essential</th>
-        <th scope="col">Feature</th>
-        <th scope="col">Deluxe</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr><td>Coverage hours</td><td>7 hours</td><td>9 hours</td><td>Up to 12 hours</td></tr>
-      <tr><td>Filmmakers</td><td>1</td><td>1</td><td>2</td></tr>
-      <tr><td>Highlight Film (4–5 mins)</td><td><span class="tick">✓</span></td><td><span class="tick">✓</span></td><td><span class="tick">✓</span></td></tr>
-      <tr><td>Socials Hero (45s cut)</td><td><span class="tick">✓</span></td><td><span class="tick">✓</span></td><td><span class="tick">✓</span></td></tr>
-      <tr><td>Ceremony &amp; Speeches</td><td>Single cam raw (unedited)</td><td>2x cam edited</td><td>3x cam edited</td></tr>
-      <tr><td>Raw &amp; Unedited footage</td><td><span class="dash">–</span></td><td><span class="dash">–</span></td><td>2 hours</td></tr>
-      <tr><td>Digital delivery</td><td><span class="tick">✓</span></td><td><span class="tick">✓</span></td><td><span class="tick">✓</span></td></tr>
-    </tbody>
-  </table>
-</section>
-
-<!-- Add-ons -->
-<section class="addons-section">
-  <div class="addons-inner">
-    <header class="addons-header">
-      <h2 class="addons-title">Add <em>anything else</em> you'd like.</h2>
-      <span class="addon-note" style="margin-top: 0.5rem;">(excl. GST)</span>
-    </header>
-    <div class="addons-grid">
-      <div class="addon">
-        <span class="addon-name">Additional hours</span>
-        <span class="addon-price">$400</span>
-        <span class="addon-note">Per hour</span>
-      </div>
-      <div class="addon">
-        <span class="addon-name">Second filmmaker</span>
-        <span class="addon-price">$1,000</span>
-        <span class="addon-note">Full day</span>
-      </div>
-      <div class="addon">
-        <span class="addon-name">Drone coverage</span>
-        <span class="addon-price">$300</span>
-        <span class="addon-note">Where permitted</span>
-      </div>
-      <div class="addon">
-        <span class="addon-name">Ceremony &amp; Speeches edits</span>
-        <span class="addon-price">$900</span>
-        <span class="addon-note">Rewatch your vows and toasts in full</span>
-      </div>
-      <div class="addon">
-        <span class="addon-name">Raw footage</span>
-        <span class="addon-price">$600</span>
-        <span class="addon-note">Full delivery</span>
-      </div>
-      <div class="addon">
-        <span class="addon-name">Feature film</span>
-        <span class="addon-price">$1,500</span>
-        <span class="addon-note">7–9 minute edit</span>
-      </div>
-      <div class="addon">
-        <span class="addon-name">Travel &amp; accommodation</span>
-        <span class="addon-price">POA</span>
-        <span class="addon-note">Calculated on request</span>
-      </div>
-      <div class="addon">
-        <span class="addon-name">Super 8 film</span>
-        <span class="addon-price">$800</span>
-        <span class="addon-note">Analogue film aesthetic</span>
-      </div>
-      <div class="addon">
-        <span class="addon-name">Social rush edit</span>
-        <span class="addon-price">$900</span>
-        <span class="addon-note">48hr turnaround</span>
-      </div>
+<section class="compare" id="compare">
+  <div class="wrap">
+    <div class="section-head">
+      <h2>Compare packages at a <em>glance.</em></h2>
+    </div>
+    <div class="compare-panel glass">
+      <table>
+        <colgroup>
+          <col class="col-label">
+          <col class="col-tier">
+          <col class="col-tier">
+          <col class="col-tier">
+        </colgroup>
+        <thead>
+          <tr>
+            <th>Includes</th>
+            <th>Essential</th>
+            <th>Feature</th>
+            <th>Deluxe</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><th>Coverage hours</th><td>7 hours</td><td>9 hours</td><td>Up to 12 hours</td></tr>
+          <tr><th>Filmmakers</th><td>1</td><td>1</td><td>2</td></tr>
+          <tr><th>Wedding Film (4–6 mins)</th><td><span class="no">✕</span></td><td><span class="check">✓</span></td><td><span class="check">✓</span></td></tr>
+          <tr><th>Wedding Short</th><td><span class="check">✓</span></td><td><span class="check">✓</span></td><td><span class="check">✓</span></td></tr>
+          <tr><th>Ceremony &amp; Speeches</th><td><span class="check">✓</span></td><td><span class="check">✓</span></td><td><span class="check">✓</span></td></tr>
+          <tr><th>Raw &amp; Unedited footage</th><td><span class="no">✕</span></td><td><span class="no">✕</span></td><td><span class="check">✓</span></td></tr>
+          <tr><th>Drone coverage</th><td><span class="no">✕</span></td><td><span class="no">✕</span></td><td><span class="check">✓</span></td></tr>
+          <tr><th>Digital delivery</th><td><span class="check">✓</span></td><td><span class="check">✓</span></td><td><span class="check">✓</span></td></tr>
+        </tbody>
+      </table>
     </div>
   </div>
 </section>
 
-<!-- Booking CTA, consolidated single CTA at the bottom -->
-<section class="booking-section">
-  <div class="booking-inner">
-    <span class="booking-eyebrow">Next step</span>
-    <h2 class="booking-heading">Ready to talk it <em>through?</em></h2>
-    <p class="booking-body">Book a call and we'll walk through the packages, your wedding plans, and any questions you have. A 35% deposit secures your date once you're ready.</p>
-    <a class="btn-primary" href="https://calendly.com/nathan-sol/30min" target="_blank" rel="noopener noreferrer">Book a call →</a>
-    <p class="footnote">Pricing is subject to change depending on season, time of year, and location.</p>
+<section class="addons">
+  <div class="wrap">
+    <div class="section-head">
+      <h2>Add <em>anything else</em> you'd like.</h2>
+      <p>(excl. GST)</p>
+    </div>
+    <div class="addon-grid">
+      <div class="addon glass"><div class="row"><span class="name">Additional hours</span><span class="price">$400</span></div><span class="note">Per hour</span></div>
+      <div class="addon glass"><div class="row"><span class="name">Second filmmaker</span><span class="price">$1,000</span></div><span class="note">Full day</span></div>
+      <div class="addon glass"><div class="row"><span class="name">Drone coverage</span><span class="price">$300</span></div><span class="note">Where permitted</span></div>
+      <div class="addon glass"><div class="row"><span class="name">Ceremony &amp; Speeches edits</span><span class="price">$900</span></div><span class="note">Rewatch your vows and toasts in full</span></div>
+      <div class="addon glass"><div class="row"><span class="name">Raw footage</span><span class="price">$800</span></div><span class="note">Full delivery</span></div>
+      <div class="addon glass"><div class="row"><span class="name">Feature film</span><span class="price">$1,500</span></div><span class="note">7–9 minute edit</span></div>
+      <div class="addon glass"><div class="row"><span class="name">Travel &amp; accommodation</span><span class="price">POA</span></div><span class="note">Calculated on request</span></div>
+      <div class="addon glass"><div class="row"><span class="name">Super 8 film</span><span class="price">$800</span></div><span class="note">Analogue film aesthetic</span></div>
+      <div class="addon glass"><div class="row"><span class="name">Social rush edit</span><span class="price">$900</span></div><span class="note">48hr turnaround</span></div>
+    </div>
   </div>
 </section>
 
-<script>
-  function toggleCompare(btn) {
-    var section = document.getElementById('compareSection');
-    var isVisible = section.classList.contains('visible');
-    section.classList.toggle('visible');
-    section.setAttribute('aria-hidden', isVisible ? 'true' : 'false');
-    btn.setAttribute('aria-expanded', isVisible ? 'false' : 'true');
-    btn.textContent = isVisible ? 'Compare all packages →' : 'Hide comparison ↑';
-    if (!isVisible) {
-      section.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    }
-  }
-</script>
+<section class="final">
+  <div class="final-panel glass">
+    <h2>Ready to talk it <em>through?</em></h2>
+    <p>Book a call and we'll walk through the packages, your wedding plans, and any questions you have. A 35% deposit secures your date once you're ready.</p>
+    <a class="btn btn-solid" href="https://calendly.com/nathan-sol/30min">Book a call →</a>
+  </div>
+  <p class="final-note">Pricing is subject to change depending on season, time of year, and location.</p>
+</section>
 
 </body>
 </html>
