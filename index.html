@@ -308,6 +308,15 @@
     max-width: 70ch;
   }
 </style>
+
+<!--
+  Calendly popup widget: official embed assets, loaded here rather than
+  in any shared include so only this page carries the weight. The
+  stylesheet is required for the overlay chrome; widget.js is loaded
+  async at the end of <body>, and the "Book a call" links keep their real
+  Calendly href so they still navigate normally if it never arrives.
+-->
+<link rel="stylesheet" href="https://assets.calendly.com/assets/external/widget.css">
 </head>
 <body>
 
@@ -491,6 +500,38 @@
   </div>
   <p class="final-note">Pricing is subject to change depending on season, time of year, and location.</p>
 </section>
+
+<script src="https://assets.calendly.com/assets/external/widget.js" async></script>
+<script>
+  /* Open the "Book a call" links as a Calendly overlay instead of
+     navigating away. Delegated from the document so it covers all four
+     links (three package cards plus the closing CTA) without touching
+     their markup, text, or styling.
+
+     The popup is only taken over when Calendly's own script has actually
+     loaded and exposes initPopupWidget. If widget.js is blocked, fails,
+     or simply hasn't arrived yet, nothing is prevented and the click
+     falls through to the link's real href, which is the same booking
+     page, so the button is never dead. The URL is read from the link
+     itself rather than repeated here, so the popup can't drift from the
+     event type the href points at. */
+  document.addEventListener('click', function (event) {
+    if (event.defaultPrevented || event.button !== 0) return;
+    /* Let cmd/ctrl/shift/alt-click keep opening a new tab or window. */
+    if (event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
+
+    var target = event.target;
+    var link = target && target.closest
+      ? target.closest('a[href*="calendly.com"]')
+      : null;
+    if (!link) return;
+
+    if (!window.Calendly || typeof window.Calendly.initPopupWidget !== 'function') return;
+
+    event.preventDefault();
+    window.Calendly.initPopupWidget({ url: link.href });
+  });
+</script>
 
 </body>
 </html>
